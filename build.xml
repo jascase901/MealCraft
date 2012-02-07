@@ -1,59 +1,112 @@
-<project name="MealCraft" default="dist" basedir=".">
-    <description>
-        MealCraft xml file
-    </description>
-  <!-- set global properties for this build -->
-  <property name="src" location="src"/>
-  <property name="build" location="build"/>
-  <property name="dist"  location="dist"/>
+<project default="compile">
 
-  <target name="init">
-    <!-- Create the time stamp -->
-    <tstamp/>
-    <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${build}"/>
+  <!-- build.xml for lab02, W12, CS56
+       name: @@@ ALly Hendrickson & Jason Hilton @@@ -->
+   
+   <property environment="env"/> <!-- load the environment variables --> 
+   <property name="webRoot" value="${env.HOME}/public_html/mealcraft" />
+   <property name="webBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/mealcraft" />
+
+
+<property name="projectName" value="MealCraft" /> 
+  <property name="javadocDest" value="${webRoot}/${projectName}/javadoc" /> 
+  <property name="javadocURL" value="${webBaseURL}/${projectName}/javadoc" /> 
+  <target name="compile" description="compile my code">
+<mkdir dir="build"/>   
+ <javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false" >
+
+
+ <classpath>                                                                                                                             
+         <pathelement location="build"/>                                                                                                          
+         <pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>                                                   
+ </classpath>                                                                                                                             
+  </javac> 
   </target>
 
-  <target name="compile" depends="init"
-        description="compile the source " >
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}"/>
-  </target>
 
-  <target name="dist" depends="compile"
-        description="generate the distribution" >
-    <!-- Create the distribution directory -->
-    <mkdir dir="${dist}/lib"/>
-
-    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/MyProject-${DSTAMP}.jar" basedir="${build}"/>
+  <target name="run" depends="compile" description="run the UCSBCourseTester program">
+    <java classname="MealCraftTester" classpath="build" />
   </target>
+  <target name="clean" description="delete unnecessary files and directories">
+    <delete dir="build" quiet="true" />
+    <delete dir="dist" quiet="true" /> 
+<delete dir="javadoc" quiet = "true" />
+</target>
 
-  <target name="clean"
-        description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
-    <delete dir="${dist}"/>
-  </target>
 
-  <target name="run" depends="compile" description="runs MealCraftTester">
-    <java classname="MealCraftTester" classpath="./build"/>
-  </target>
+<target name="javadoc" depends="compile">                                                                                                                                                          
+   <delete dir="javadoc" quiet="true" />                                                          
+   <javadoc  destdir="javadoc" author="true" version="true" use="true" >                          
+      <fileset dir="src" includes="**/*.java"/>                                                     
+      <classpath>                                                                                 
+          <pathelement location="junit-4.8.2.jar"/>      
+      </classpath>                                                                                 
+   </javadoc>                                                                                     
+                                                                                                  
+   <!-- delete the old javadoc -->                                                                
+   <delete quiet="true" dir="${javadocDest}" />                                                   
+                                                                                                  
+   <!-- copy everything you just made to the javadoc destination, and then make it readable -->   
+                                                                                                  
+   <copy todir="${javadocDest}" >                                                                 
+     <fileset dir="javadoc"/>                                                                     
+   </copy>                                                                                        
+                                                                                                  
+   <!-- Note: this only does the chmod command on the                                             
+        javadoc subdirectory and its contents.  You MIGHT have to                                 
+        MANUALLY do the chmod on the parent directories.  However,                                
+        you should only need to do that once. -->                                                 
+                                                                                                  
+   <chmod dir="${javadocDest}" perm="755"  type="dir" includes="**" />                            
+   <chmod dir="${javadocDest}" perm="755"  type="file" includes="**/*" />                         
+   <echo>Javadoc deployed to ${javadocURL}</echo>                                                 
+                                                                                                  
+</target>
+
 <target name="test" depends="compile">
+
     <junit haltonerror="no" haltonfailure="no">
        <classpath>
-         <pathelement location="junit-4.19.jar"/>
-         <pathelement location="."/>
+         <pathelement location="junit-4.8.2.jar"/>
+         <pathelement location="build"/>
        </classpath>
+
        <batchtest fork="yes">
-          <fileset dir=".">
+          <fileset dir="src">
             <!-- this will pick up every class with a name ending in Test -->
             <include name="*Test.java"/>
           </fileset>
        </batchtest>
-        <formatter type="plain" usefile="false" />
+
+        <formatter type="plain" usefile="false" /> 
+       
     </junit>
 </target>
 
-  
+<target name="jar" depends="compile">
+                                         
+   <mkdir dir="dist" />
+                                                        
+    <jar destfile="dist/${projectName}.jar" basedir="build" >                  
+       <manifest>                                                              
+         <attribute name="Main-Class" value="MealCraft"/>               
+       </manifest>                                                             
+    </jar>  
+
+ </target>
+
+<target name="publish" depends="jar,javadoc">                           
+   <mkdir dir="${webRoot}/${projectName}" />                                      
+                                                                                 
+   <copy file="html/index.html" todir="${webRoot}/${projectName}"/>               
+                                                                                  
+   <copy todir="${webRoot}/${projectName}/download" >                                                                           
+     <fileset dir="dist" />                                                       
+   </copy>                                                                        
+                                                                                  
+   <chmod dir="${webRoot}/${projectName}"                                         
+          perm="755" type="both" includes="**/*"/>                                
+   <echo>Project published to ${webBaseURL}/${projectName}</echo>                 
+</target> 
+        
 </project>
