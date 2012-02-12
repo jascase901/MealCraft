@@ -3,6 +3,7 @@
 public class Ingredient extends Item{
     String name;
     int calories;
+    int quantity;
     double price;
     /**
        sets every instance variable to a flag variable so we
@@ -55,6 +56,8 @@ public class Ingredient extends Item{
     public int getCalories(){
 	return calories;
     }
+   
+
     /**
        @return price
     */
@@ -67,4 +70,5 @@ public class Ingredient extends Item{
     public String getName(){
 	return name;
     }
+
 }
