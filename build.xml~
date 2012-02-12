@@ -51,7 +51,7 @@
 
 	<target name="run-tests" depends="compile" description="run your test suite" >
 		
-		<junit printsummary="yes" haltonfailure="no" showoutput="yes" >
+		<junit printsummary="yes" haltonfailure="yes" showoutput="yes" >
 			<classpath>
 				<pathelement path="${build}"/>
 				<fileset dir="lib">
