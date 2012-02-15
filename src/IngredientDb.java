@@ -10,8 +10,8 @@ public class IngredientDb {
 	 conn =
 	     DriverManager.getConnection("jdbc:sqlite:MealCraft.db");
 	 stat = conn.createStatement();
-	 stat.executeUpdate("drop table  if exists pantry;");
-	 stat.executeUpdate("create table pantry (id, name, calories, price, quantity);");
+	 //stat.executeUpdate("drop table  if exists pantry;");
+	 stat.executeUpdate("create table  if not exists  pantry (id,PRIMARY KEY(name), calories, price, quantity);");
 	        
     }
     /**
@@ -20,10 +20,19 @@ public class IngredientDb {
        @return item quantity
     */
     public int getQuantity(String name) throws Exception{
-	Ingredient ingredient = getIngredient(name);
-	return 42;
-	
+	int quantity=-42;
+	ResultSet rs = stat.executeQuery("select * from pantry;");
+	if (rs!=null){
+	while (rs.next()){
+	    if (name.equals(rs.getString("name")))
+		quantity= rs.getInt("quantity");		
+ 
+	}
+	}
+	rs.close();
+	return quantity;
     }
+    
     /**
        returns calories of item
        @param name of item
@@ -74,11 +83,11 @@ public class IngredientDb {
 	PreparedStatement prep = conn.prepareStatement(
 						       "insert into pantry values (?, ?,?,?,?);");
 	if (prep!=null){      
-	prep.setString(1,""+1);
+	prep.setInt(1,1);
 	prep.setString(2,""+ingredient.getName());
-	prep.setString(3,""+ingredient.getCalories());
-	prep.setString(4,""+ingredient.getPrice());
-	prep.setString(5,""+quantity);
+	prep.setInt(3,ingredient.getCalories());
+	prep.setDouble(4,ingredient.getPrice());
+	prep.setInt(5,quantity);
 	prep.addBatch();
 	
 	conn.setAutoCommit(false);
@@ -99,8 +108,26 @@ public class IngredientDb {
     public void setQuantity(String name, int quantity) throws Exception{
 	PreparedStatement prep = conn.prepareStatement(
 				 "UPDATE pantry SET quantity = ? WHERE name = ?");
-	prep.setString(1, name);
-	prep.setString(2, ""+quantity);
+      
+	
+	prep.setInt(1, quantity);
+	prep.setString(2, name);
+	prep.executeUpdate();
+    }
+    /**
+       @post prints everything in the database
+    */   
+    public String printAll() throws Exception{
+	ResultSet rs = stat.executeQuery("select * from pantry;");
+	String str="";
+	while(rs.next()){
+	    str+=rs.getString("id")+" ";
+	    str+=rs.getString("name")+" ";
+	    str+=rs.getString("calories")+ " ";
+	    str+=rs.getString("price")+ " ";
+	    str+=rs.getString("quantity")+ "\n";
+	}
+	return str;
     }
     
     private Ingredient getIngredient(String name) throws Exception{

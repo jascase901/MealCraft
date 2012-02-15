@@ -59,6 +59,7 @@ protected void setUp() {
 	ingr.addIngredient(bacon, 1);
 	ingr.setQuantity("bacon", ingr.getQuantity("bacon")+1);
 	assertEquals(2,ingr.getQuantity("bacon"));
+	ingr.close();
     }
     public void testSetQuantity3() throws Exception{
 
@@ -67,5 +68,15 @@ protected void setUp() {
 	ingr.addIngredient(bacon);
 	ingr.setQuantity("bacon", ingr.getQuantity("bacon")+1);
 	assertEquals(2,ingr.getQuantity("bacon"));
+	ingr.close();
+    }
+    public void testprintAll() throws Exception{
+	Ingredient bacon = new Ingredient("bacon", 54, 54.0);
+	Ingredient potatoes = new Ingredient("potatoes", 20, 20.0);
+	IngredientDb ingr = new IngredientDb();
+	ingr.addIngredient(bacon);
+	ingr.addIngredient(potatoes);
+	assertEquals("1 bacon 54 54.0 1\n1 potatoes 20 20.0 1\n",ingr.printAll());
+	
     }
 }
