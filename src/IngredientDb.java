@@ -11,7 +11,7 @@ public class IngredientDb {
 	     DriverManager.getConnection("jdbc:sqlite:MealCraft.db");
 	 stat = conn.createStatement();
 	 //stat.executeUpdate("drop table  if exists pantry;");
-	 stat.executeUpdate("create table  if not exists  pantry (id,PRIMARY KEY(name), calories, price, quantity);");
+	 stat.executeUpdate("create table  if not exists  pantry (name primary key, calories, price, quantity);");
 	        
     }
     /**
@@ -31,7 +31,7 @@ public class IngredientDb {
 	}
 	rs.close();
 	return quantity;
-    }
+   }
     
     /**
        returns calories of item
@@ -43,14 +43,7 @@ public class IngredientDb {
 	return ingredient.getCalories();
 
     }
-    /**
-       returns the name of the id
-      @param items unique identify
-       @return name of item
-    */
-    public String getName(int id){
-	return "bacon";
-    }
+  
     /**
        returns price of item
        @param name
@@ -79,20 +72,23 @@ public class IngredientDb {
        adds an ingredient to the database
        @param ingredient
     */
-    public void addIngredient(Ingredient ingredient, int quantity) throws Exception{
+    public void addIngredient(Ingredient ingredient, int quant) throws Exception{
 	PreparedStatement prep = conn.prepareStatement(
-						       "insert into pantry values (?, ?,?,?,?);");
-	if (prep!=null){      
-	prep.setInt(1,1);
-	prep.setString(2,""+ingredient.getName());
-	prep.setInt(3,ingredient.getCalories());
-	prep.setDouble(4,ingredient.getPrice());
-	prep.setInt(5,quantity);
+						       "insert into pantry values ( ?,?,?,?);");
+	if (prep!=null){
+	    try{      
+	prep.setString(1,""+ingredient.getName());
+	prep.setInt(2,ingredient.getCalories());
+	prep.setDouble(3,ingredient.getPrice());
+	prep.setInt(4,quant);
 	prep.addBatch();
 	
 	conn.setAutoCommit(false);
 	prep.executeBatch();
 	conn.setAutoCommit(true);
+	    }
+	    catch(Exception ex){}
+	    finally{}
 	}
 	else
 	    System.out.println("prep is null");
@@ -121,12 +117,13 @@ public class IngredientDb {
 	ResultSet rs = stat.executeQuery("select * from pantry;");
 	String str="";
 	while(rs.next()){
-	    str+=rs.getString("id")+" ";
+	    
 	    str+=rs.getString("name")+" ";
 	    str+=rs.getString("calories")+ " ";
 	    str+=rs.getString("price")+ " ";
 	    str+=rs.getString("quantity")+ "\n";
 	}
+	rs.close();
 	return str;
     }
     
