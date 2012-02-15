@@ -1,5 +1,4 @@
 //import sql stuff
-
 public class Ingredient extends Item{
     String name;
     int calories;
