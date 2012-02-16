@@ -22,60 +22,39 @@ protected void setUp() {
 	ingr.close();
   }
     public void testAdd2() throws Exception {
-	Ingredient bacon = new Ingredient("bacon", 54.0);
+	Ingredient bananna = new Ingredient("bananna", 54.0);
 	IngredientDb ingr = new IngredientDb();
-	ingr.addIngredient(bacon, 1);
-	assertEquals(54.0, ingr.getPrice("bacon"));
+	ingr.addIngredient(bananna);
+	assertEquals(54.0, ingr.getPrice("bananna"));
 	ingr.close();
   }
     public void testAdd3() throws Exception {
-	Ingredient bacon = new Ingredient("bacon", 54);
+	Ingredient pork = new Ingredient("pork", 54);
 	IngredientDb ingr = new IngredientDb();
-	ingr.addIngredient(bacon, 1);
-	assertEquals(54, ingr.getCalories("bacon"));
+	ingr.addIngredient(pork, 32);
+	assertEquals(54, ingr.getCalories("pork"));
 	ingr.close();
   }
     public void testAdd4() throws Exception {
-	Ingredient bacon = new Ingredient("bacon", 54, 54.0);
+	Ingredient beer = new Ingredient("beer", 54, 54.0);
 	IngredientDb ingr = new IngredientDb();
-	ingr.addIngredient(bacon, 1);
-	assertEquals(54.0, ingr.getPrice("bacon"));
+	ingr.addIngredient(beer, 1);
+	assertEquals(54.0, ingr.getPrice("beer"));
 	ingr.close();
       
   }
     public void testSetQuantity1() throws Exception{
 	Ingredient bacon = new Ingredient("bacon", 54, 54.0);
 	IngredientDb ingr = new IngredientDb();
-	ingr.addIngredient(bacon, 1);
 	ingr.setQuantity("bacon", 2);
 	assertEquals(2,ingr.getQuantity("bacon"));
 	ingr.close();
     }
 
 
-    public void testSetQuantity2() throws Exception{
-	Ingredient bacon = new Ingredient("bacon", 54, 54.0);
-	IngredientDb ingr = new IngredientDb();
-	ingr.addIngredient(bacon, 1);
-	ingr.setQuantity("bacon", ingr.getQuantity("bacon")+1);
-	assertEquals(2,ingr.getQuantity("bacon"));
-	ingr.close();
-    }
-    public void testSetQuantity3() throws Exception{
 
-	Ingredient bacon = new Ingredient("bacon", 54, 54.0);
-	IngredientDb ingr = new IngredientDb();
-	ingr.addIngredient(bacon);
-	ingr.setQuantity("bacon", ingr.getQuantity("bacon")+1);
-	assertEquals(2,ingr.getQuantity("bacon"));
-	ingr.close();
-    }
     public void testprintAll() throws Exception{
-	Ingredient bacon = new Ingredient("bacon", 54, 54.0);
-	Ingredient potatoes = new Ingredient("potatoes", 20, 20.0);
 	IngredientDb ingr = new IngredientDb();
-	ingr.addIngredient(bacon);
-	ingr.addIngredient(potatoes);
 	assertEquals("1 bacon 54 54.0 1\n1 potatoes 20 20.0 1\n",ingr.printAll());
 	
     }

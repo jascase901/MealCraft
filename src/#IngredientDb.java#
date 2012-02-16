@@ -76,20 +76,21 @@ public class IngredientDb {
     public void addIngredient(Ingredient ingredient, int quant) throws Exception{
 	PreparedStatement prep = conn.prepareStatement(
 						       "insert into pantry values ( ?,?,?,?);");
+	
+	//checks if ingredient is in db
 	if (getIngredient(ingredient.getName())==null){
 	  
-	prep.setString(1,""+ingredient.getName());
-	prep.setInt(2,ingredient.getCalories());
-	prep.setDouble(3,ingredient.getPrice());
-	prep.setInt(4,quant);
-	prep.addBatch();
+	    prep.setString(1,""+ingredient.getName());
+	    prep.setInt(2,ingredient.getCalories());
+	    prep.setDouble(3,ingredient.getPrice());
+	    prep.setInt(4,quant);
+	    prep.addBatch();
 	
-	conn.setAutoCommit(false);
-	prep.executeBatch();
-	conn.setAutoCommit(true);
+	    conn.setAutoCommit(false);
+	    prep.executeBatch();
+	    conn.setAutoCommit(true);
 	}
-else
-	  System.out.println("table exists");
+
 	
     }
     public void addIngredient(Ingredient ingredient) throws Exception{
