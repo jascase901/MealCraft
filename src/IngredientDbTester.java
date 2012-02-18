@@ -32,6 +32,7 @@ protected void setUp() {
 	Ingredient pork = new Ingredient("pork", 54);
 	IngredientDb ingr = new IngredientDb();
 	ingr.addIngredient(pork, 32);
+
 	assertEquals(54, ingr.getCalories("pork"));
 	ingr.close();
   }

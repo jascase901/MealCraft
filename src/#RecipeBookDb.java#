@@ -1,0 +1,8 @@
+import java.sql.*;
+public class RecipeBookDb extends Database{
+    public RecipeBookDb() throws Exception{
+	super()
+	    stat.executeUpdate("create table  if not exists  pantry (id primary key, 
+                            calories, price, quantity);");
+    }
+}

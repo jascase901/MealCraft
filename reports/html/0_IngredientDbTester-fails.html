@@ -39,7 +39,7 @@
     
         cur['dist'] = '/home/jason/MealCraft/dist';
     
-        cur['DSTAMP'] = '20120212';
+        cur['DSTAMP'] = '20120218';
     
         cur['file.encoding'] = 'UTF-8';
     
@@ -134,7 +134,7 @@
     
         cur['sun.io.unicode.encoding'] = 'UnicodeLittle';
     
-        cur['sun.java.command'] = 'org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner IngredientDbTester filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/jason/MealCraft/reports/raw/TEST-IngredientDbTester.xml crashfile=/home/jason/MealCraft/junitvmwatcher2519032986108623333.properties propsfile=/home/jason/MealCraft/junit3531500475445783312.properties';
+        cur['sun.java.command'] = 'org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner IngredientDbTester filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/jason/MealCraft/reports/raw/TEST-IngredientDbTester.xml crashfile=/home/jason/MealCraft/junitvmwatcher343507645081259872.properties propsfile=/home/jason/MealCraft/junit125444798545582936.properties';
     
         cur['sun.java.launcher'] = 'SUN_STANDARD';
     
@@ -144,9 +144,9 @@
     
         cur['sun.os.patch.level'] = 'unknown';
     
-        cur['TODAY'] = 'February 12 2012';
+        cur['TODAY'] = 'February 18 2012';
     
-        cur['TSTAMP'] = '1412';
+        cur['TSTAMP'] = '1207';
     
         cur['user.country'] = 'US';
     
@@ -205,7 +205,7 @@
 <th width="80%">Name</th><th>Tests</th><th>Errors</th><th>Failures</th><th nowrap>Time(s)</th><th nowrap>Time Stamp</th><th>Host</th>
 </tr>
 <tr valign="top" class="Failure">
-<td><a title="Display all tests" href="0_IngredientDbTester.html">IngredientDbTester</a></td><td><a title="Display all tests" href="0_IngredientDbTester.html">7</a></td><td>0</td><td><a title="Display only failures" href="0_IngredientDbTester-fails.html">3</a></td><td>0.354</td><td>2012-02-12T22:12:09</td><td>ubuntu</td>
+<td><a title="Display all tests" href="0_IngredientDbTester.html">IngredientDbTester</a></td><td><a title="Display all tests" href="0_IngredientDbTester.html">6</a></td><td>0</td><td><a title="Display only failures" href="0_IngredientDbTester-fails.html">1</a></td><td>0.172</td><td>2012-02-18T20:07:43</td><td>ubuntu</td>
 </tr>
 </table>
 <h2>Failures</h2>
@@ -214,22 +214,16 @@
 <th>Name</th><th>Status</th><th width="80%">Type</th><th nowrap>Time(s)</th>
 </tr>
 <tr valign="top" class="Failure">
-<td><a name="testSetQuantity1"></a>testSetQuantity1</td><td>Failure</td><td>expected:&lt;2&gt; but was:&lt;42&gt;<br>
+<td><a name="testprintAll"></a>testprintAll</td><td>Failure</td><td>expected:&lt;[1 bacon 54 54.0 1
+1 potatoes 20 20].0 1
+&gt; but was:&lt;[bacon -42 -42.0 2
+bananna -42 54.0 1
+pork 54 -42.0 32
+beer 54 54].0 1
+&gt;<br>
 <br>
-<code>junit.framework.AssertionFailedError: expected:&lt;2&gt; but was:&lt;42&gt;<br>	at IngredientDbTester.testSetQuantity1(Unknown Source)<br>
-</code></td><td>0.029</td>
-</tr>
-<tr valign="top" class="Failure">
-<td><a name="testSetQuantity2"></a>testSetQuantity2</td><td>Failure</td><td>expected:&lt;2&gt; but was:&lt;42&gt;<br>
-<br>
-<code>junit.framework.AssertionFailedError: expected:&lt;2&gt; but was:&lt;42&gt;<br>	at IngredientDbTester.testSetQuantity2(Unknown Source)<br>
-</code></td><td>0.021</td>
-</tr>
-<tr valign="top" class="Failure">
-<td><a name="testSetQuantity3"></a>testSetQuantity3</td><td>Failure</td><td>expected:&lt;2&gt; but was:&lt;42&gt;<br>
-<br>
-<code>junit.framework.AssertionFailedError: expected:&lt;2&gt; but was:&lt;42&gt;<br>	at IngredientDbTester.testSetQuantity3(Unknown Source)<br>
-</code></td><td>0.043</td>
+<code>junit.framework.ComparisonFailure: expected:&lt;[1 bacon 54 54.0 1<br>1 potatoes 20 20].0 1<br>&gt; but was:&lt;[bacon -42 -42.0 2<br>bananna -42 54.0 1<br>pork 54 -42.0 32<br>beer 54 54].0 1<br>&gt;<br>	at IngredientDbTester.testprintAll(Unknown Source)<br>
+</code></td><td>0.005</td>
 </tr>
 </table>
 <div class="Properties">
