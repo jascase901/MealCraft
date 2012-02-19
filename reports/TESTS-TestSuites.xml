@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="0" failures="1" hostname="ubuntu" id="0" name="IngredientDbTester" package="" tests="6" time="0.172" timestamp="2012-02-18T20:07:43">
+  <testsuite errors="0" failures="1" hostname="ubuntu" id="0" name="IngredientDbTester" package="" tests="6" time="0.111" timestamp="2012-02-19T03:58:56">
       <properties>
           <property name="java.vendor" value="Sun Microsystems Inc." />
 
@@ -104,7 +104,7 @@
 
           <property name="java.runtime.name" value="OpenJDK Runtime Environment" />
 
-          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner IngredientDbTester filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/jason/MealCraft/reports/raw/TEST-IngredientDbTester.xml crashfile=/home/jason/MealCraft/junitvmwatcher343507645081259872.properties propsfile=/home/jason/MealCraft/junit125444798545582936.properties" />
+          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner IngredientDbTester filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/jason/MealCraft/reports/raw/TEST-IngredientDbTester.xml crashfile=/home/jason/MealCraft/junitvmwatcher1453119388189521619.properties propsfile=/home/jason/MealCraft/junit7650140259621438342.properties" />
 
           <property name="java.class.path" value="/home/jason/MealCraft/bin:/home/jason/MealCraft/lib/junit-4.10.jar:/home/jason/MealCraft/lib/sqlitejdbc-v056.jar:/usr/share/ant/lib/junit.jar:/usr/share/java/ant-launcher-1.8.2.jar:/usr/share/ant/lib/ant.jar:/usr/share/ant/lib/ant-junit.jar" />
 
@@ -112,7 +112,7 @@
 
           <property name="jar_name" value="MealCraft.jar" />
 
-          <property name="TSTAMP" value="1207" />
+          <property name="TSTAMP" value="1958" />
 
           <property name="war_name" value="MealCraft.war" />
 
@@ -156,15 +156,15 @@
 
       </properties>
 
-      <testcase classname="IngredientDbTester" name="testAdd1" time="0.054" />
+      <testcase classname="IngredientDbTester" name="testAdd1" time="0.034" />
 
-      <testcase classname="IngredientDbTester" name="testAdd2" time="0.001" />
+      <testcase classname="IngredientDbTester" name="testAdd2" time="0.0" />
 
-      <testcase classname="IngredientDbTester" name="testAdd3" time="0.0" />
+      <testcase classname="IngredientDbTester" name="testAdd3" time="0.001" />
 
       <testcase classname="IngredientDbTester" name="testAdd4" time="0.002" />
 
-      <testcase classname="IngredientDbTester" name="testSetQuantity1" time="0.047" />
+      <testcase classname="IngredientDbTester" name="testSetQuantity1" time="0.031" />
 
       <testcase classname="IngredientDbTester" name="testprintAll" time="0.005">
           <failure message="expected:&lt;[1 bacon 54 54.0 1&#xa;1 potatoes 20 20].0 1&#xa;&gt; but was:&lt;[bacon -42 -42.0 2&#xa;bananna -42 54.0 1&#xa;pork 54 -42.0 32&#xa;beer 54 54].0 1&#xa;&gt;" type="junit.framework.ComparisonFailure">junit.framework.ComparisonFailure: expected:&lt;[1 bacon 54 54.0 1
@@ -184,7 +184,7 @@ beer 54 54].0 1
       <system-err />
 
   </testsuite>
-  <testsuite errors="0" failures="0" hostname="ubuntu" id="1" name="RecipeBookDbTester" package="" tests="6" time="0.039" timestamp="2012-02-18T20:07:43">
+  <testsuite errors="0" failures="0" hostname="ubuntu" id="1" name="RecipeBookDbTester" package="" tests="6" time="0.109" timestamp="2012-02-19T03:58:57">
       <properties>
           <property name="java.vendor" value="Sun Microsystems Inc." />
 
@@ -288,7 +288,7 @@ beer 54 54].0 1
 
           <property name="java.runtime.name" value="OpenJDK Runtime Environment" />
 
-          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner RecipeBookDbTester filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/jason/MealCraft/reports/raw/TEST-RecipeBookDbTester.xml crashfile=/home/jason/MealCraft/junitvmwatcher2192473052683012166.properties propsfile=/home/jason/MealCraft/junit5206697376449767148.properties" />
+          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner RecipeBookDbTester filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/jason/MealCraft/reports/raw/TEST-RecipeBookDbTester.xml crashfile=/home/jason/MealCraft/junitvmwatcher1368243064285711140.properties propsfile=/home/jason/MealCraft/junit3237646672558417097.properties" />
 
           <property name="java.class.path" value="/home/jason/MealCraft/bin:/home/jason/MealCraft/lib/junit-4.10.jar:/home/jason/MealCraft/lib/sqlitejdbc-v056.jar:/usr/share/ant/lib/junit.jar:/usr/share/java/ant-launcher-1.8.2.jar:/usr/share/ant/lib/ant.jar:/usr/share/ant/lib/ant-junit.jar" />
 
@@ -296,7 +296,7 @@ beer 54 54].0 1
 
           <property name="jar_name" value="MealCraft.jar" />
 
-          <property name="TSTAMP" value="1207" />
+          <property name="TSTAMP" value="1958" />
 
           <property name="war_name" value="MealCraft.war" />
 
@@ -340,7 +340,7 @@ beer 54 54].0 1
 
       </properties>
 
-      <testcase classname="RecipeBookDbTester" name="testAdd1" time="0.001" />
+      <testcase classname="RecipeBookDbTester" name="testAdd1" time="0.067" />
 
       <testcase classname="RecipeBookDbTester" name="testAdd2" time="0.0" />
 
@@ -348,7 +348,7 @@ beer 54 54].0 1
 
       <testcase classname="RecipeBookDbTester" name="testAdd4" time="0.001" />
 
-      <testcase classname="RecipeBookDbTester" name="testSetQuantity1" time="0.0" />
+      <testcase classname="RecipeBookDbTester" name="testSetQuantity1" time="0.001" />
 
       <testcase classname="RecipeBookDbTester" name="testprintAll" time="0.0" />
 

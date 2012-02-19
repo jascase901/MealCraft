@@ -8,4 +8,7 @@ public abstract class Database{
 	     DriverManager.getConnection("jdbc:sqlite:MealCraft.db");
 	 stat = conn.createStatement();
     }
+    public void close() throws Exception{
+	conn.close();
+    }
 }

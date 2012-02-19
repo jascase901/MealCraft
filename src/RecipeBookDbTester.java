@@ -15,19 +15,15 @@ protected void setUp() {
     
 
     public void testAdd1() throws Exception {
-/*
-	myRecipeBook = new RecipeBookDb();
-	Recipe baconStew = new Recipe("jason", "bacon stew");
-	baconStew.addIngredient("1lb  bacon");
-	baconStew.addIngredient("1cup flour");
-	baconStew.addIngredient("2 cup beer");
-	baconStew.insertInstructionStep(1, "cover bacon in floor");
-	baconStew.insertInstructionStep(2, "brown bacon in flat pan for 3 minutes");
-	baconStew.insertInstructionStep(3, "place  bacon in slow cooker");
-	baconStew.insertInstructionStep(4, "pour beer over bacon");
-	baconStew.insertInstructionStep(5, "cook for 12 hours");
-	baconStew.setNote("please dont actually eat this!");
-*/
+
+	RecipeBookDb myRecipeBook = new RecipeBookDb();
+	Recipe baconStew = new Recipe("bacon stew", "brown bacon ", "not kosher");
+	myRecipeBook.addRecipe(baconStew);
+	assertEquals(myRecipeBook.getNotes("bacon stew"), "not kosher");
+
+
+	
+
   }
     public void testAdd2() throws Exception {	
   }

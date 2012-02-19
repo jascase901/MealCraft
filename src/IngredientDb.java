@@ -2,12 +2,12 @@ import java.sql.*;
 public class IngredientDb extends Database{
     
     /**
-       no-arg constuctor, opens a database connection
+       no-arg constuctor, opens a database connection creates a pantry table
     */
     public IngredientDb() throws Exception{
 	super();
 	 //stat.executeUpdate("drop table  if exists pantry;");
-	 stat.executeUpdate("create table  if not exists  pantry (name primary key, calories, price, quantity);");
+	 stat.executeUpdate("create table  if not exists  pantry (id  integer primary key , name unique, calories, price, quantity);");
 	        
     }
     /**
@@ -61,9 +61,7 @@ public class IngredientDb extends Database{
 	return 42;
 
     }
-    public void close() throws Exception{
-	conn.close();
-    }
+    
 
     /**
        adds an ingredient to the database
@@ -71,15 +69,15 @@ public class IngredientDb extends Database{
     */
     public void addIngredient(Ingredient ingredient, int quant) throws Exception{
 	PreparedStatement prep = conn.prepareStatement(
-						       "insert into pantry values ( ?,?,?,?);");
+						       "insert into pantry  values ( ?, ?,?,?,?);");
 	
 	//checks if ingredient is in db
 	if (getIngredient(ingredient.getName())==null){
-	  
-	    prep.setString(1,""+ingredient.getName());
-	    prep.setInt(2,ingredient.getCalories());
-	    prep.setDouble(3,ingredient.getPrice());
-	    prep.setInt(4,quant);
+	    prep.setString(1,null);
+	    prep.setString(2,""+ingredient.getName());
+	    prep.setInt(3,ingredient.getCalories());
+	    prep.setDouble(4,ingredient.getPrice());
+	    prep.setInt(5,quant);
 	    prep.addBatch();
 	
 	    conn.setAutoCommit(false);
@@ -89,6 +87,9 @@ public class IngredientDb extends Database{
 
 	
     }
+    /**
+       adds an ingredient to db
+     */
     public void addIngredient(Ingredient ingredient) throws Exception{
 	addIngredient(ingredient, 1);
     }
@@ -121,7 +122,9 @@ public class IngredientDb extends Database{
 	rs.close();
 	return str;
     }
-    
+    /**
+      gets an ingredient object
+    */
     private Ingredient getIngredient(String name) throws Exception{
 	Ingredient ingredient=null;
 	ResultSet rs = stat.executeQuery("select * from pantry;");
