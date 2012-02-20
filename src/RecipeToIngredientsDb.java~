@@ -1,0 +1,6 @@
+import java.sql.*;
+
+public class RecipeToIngredientsDb extends Database{
+
+
+}

@@ -1,31 +1,34 @@
 import junit.framework.*;
 public class RecipeBookDbTester extends TestCase{
+    RecipeBookDb myRecipeBook;
+    Recipe baconStew;
 
-protected void setUp() { 
-  	// put common setup code in here
+protected void setUp() throws Exception { 
+  	// put common setup code in
+	myRecipeBook = new RecipeBookDb();
+	baconStew = new Recipe("bacon stew", "brown bacon", "not kosher");
+	myRecipeBook.addRecipe(baconStew);
  
   }
    
-  protected void tearDown() {
+  protected void tearDown()  throws Exception{
   	// put common cleanup code in here
- 
-
-
+      myRecipeBook.close();
   }
     
 
     public void testAdd1() throws Exception {
 
-	RecipeBookDb myRecipeBook = new RecipeBookDb();
-	Recipe baconStew = new Recipe("bacon stew", "brown bacon ", "not kosher");
-	myRecipeBook.addRecipe(baconStew);
-	assertEquals(myRecipeBook.getNotes("bacon stew"), "not kosher");
+
+	assertEquals("not kosher",myRecipeBook.getNotes("bacon stew"));
 
 
 	
 
   }
-    public void testAdd2() throws Exception {	
+    public void testAdd2() throws Exception {
+	assertEquals("brown bacon ", myRecipeBook.getSteps("bacon stew"));
+	
   }
     public void testAdd3() throws Exception {
 

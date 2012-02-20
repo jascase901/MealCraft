@@ -5,7 +5,7 @@ public class RecipeBookDb extends Database{
     */
     public RecipeBookDb() throws Exception{
 	super();
-	  stat.executeUpdate("create table  if not exists  recipebook (id  integer primary key , name unique, steps, notes);"); 
+	  stat.executeUpdate("create table  if not exists  recipebook (recipe_id  integer primary key , name unique, steps, notes);"); 
     } 
 
 
@@ -33,6 +33,7 @@ public class RecipeBookDb extends Database{
 	    prep.executeBatch();
 	    conn.setAutoCommit(true);
 	}
+
 
 
 

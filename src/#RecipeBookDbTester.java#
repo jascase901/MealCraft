@@ -1,42 +1,34 @@
 import junit.framework.*;
 public class RecipeBookDbTester extends TestCase{
+    RecipeBookDb myRecipeBook;
+    Recipe baconStew;
 
-protected void setUp() { 
-  	// put common setup code in here
+protected void setUp() throws Exception { 
+  	// put common setup code in
+	myRecipeBook = new RecipeBookDb();
+	baconStew = new Recipe("bacon stew", "brown bacon", "not kosher");
+	myRecipeBook.addRecipe(baconStew);
  
   }
    
-  protected void tearDown() {
+  protected void tearDown()  throws Exception{
   	// put common cleanup code in here
- 
-
-
+      myRecipeBook.close();
   }
     
 
     public void testAdd1() throws Exception {
 
-	myRecipeBook = new RecipeBookDb();
-	Recipe baconStew = new Recipe("jason", "bacon stew");
-	/*baconStew.addIngredient("1lb  bacon");
-	baconStew.addIngredient("1cup flour");
-	baconStew.addIngredient("2 cup beer");
-	baconStew.insertInstructionStep(1, "cover bacon in floor");x
-	baconStew.insertInstructionStep(2, "brown bacon in flat pan for 3 minutes");
-	baconStew.insertInstructionStep(3, "place  bacon in slow cooker");
-	baconStew.insertInstructionStep(4, "pour beer over bacon");
-	baconStew.insertInstructionStep(5, "cook for 12 hours");
-	baconStew.setNote("please dont actually eat this!");
-*/
-  }
-    public void testAdd2() throws Exception {	
-  }
-    public void testAdd3() throws Exception {
+
+	assertEquals("not kosher",myRecipeBook.getNotes("bacon stew"));
+
+
+	
 
   }
-    public void testAdd4() throws Exception {
-
-      
+    public void testAdd2() throws Exception {
+	assertEquals("brown bacon ", myRecipeBook.getSteps("bacon stew"));
+	
   }
     public void testSetQuantity1() throws Exception{
 	

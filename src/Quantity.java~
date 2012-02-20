@@ -1,0 +1,10 @@
+public class Quantity{
+    double amount;
+    String units;
+    Quantity(){
+    }
+    Quantity(double amount, String units){
+	self.amount=amount;
+	self.units=units;
+    }
+}
