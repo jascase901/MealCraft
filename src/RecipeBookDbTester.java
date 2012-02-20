@@ -30,13 +30,6 @@ protected void setUp() throws Exception {
 	assertEquals("brown bacon ", myRecipeBook.getSteps("bacon stew"));
 	
   }
-    public void testAdd3() throws Exception {
-
-  }
-    public void testAdd4() throws Exception {
-
-      
-  }
     public void testSetQuantity1() throws Exception{
 	
     }

@@ -6,8 +6,9 @@ public class RecipeToIngredientsDb extends Database{
 	super();
 	stat.executeUpdate("create table  if not exists recipe-to-ingredients (recipe-id, ingredient-id, ingredient-quanity, units);"); 
     }
-    public void relateIngredient(String recipe_name, String ingredient_name, 
+    public void addRelation(String recipe_name, String ingredient_name, 
 				 double quantity, String units){
+
 
 	
     }
