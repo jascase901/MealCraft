@@ -1,0 +1,27 @@
+public class Calendar{
+    String event;
+    String description;
+    int date;
+
+    /** makes calendar object statically*/
+    public Calendar() {
+
+	event = "";
+	date = 01012012;
+        description = "";
+    
+	
+    
+    
+    }
+    
+
+
+
+
+    /** opens calendar to edit */
+    public openCalendar() {
+    
+    }
+    
+}

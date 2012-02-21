@@ -1,0 +1,255 @@
+<html xmlns:stringutils="xalan://org.apache.tools.ant.util.StringUtils" xmlns:lxslt="http://xml.apache.org/xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Unit Test Results: IngredientDbTester</title>
+<link title="Style" type="text/css" rel="stylesheet" href="stylesheet.css">
+<script language="JavaScript" type="text/javascript">
+        var TestCases = new Array();
+        var cur;
+        
+    cur = TestCases['.IngredientDbTester'] = new Array();
+    
+        cur['ant.core.lib'] = '/usr/share/java/ant.jar';
+    
+        cur['ant.file'] = '/cs/student/jkfett/MealCraft/build.xml';
+    
+        cur['ant.file.SampleJUnitTests'] = '/cs/student/jkfett/MealCraft/build.xml';
+    
+        cur['ant.file.type'] = 'file';
+    
+        cur['ant.file.type.SampleJUnitTests'] = 'file';
+    
+        cur['ant.home'] = '/usr/share/ant';
+    
+        cur['ant.java.version'] = '1.6';
+    
+        cur['ant.library.dir'] = '/usr/share/ant/lib';
+    
+        cur['ant.project.default-target'] = 'dist';
+    
+        cur['ant.project.invoked-targets'] = 'test';
+    
+        cur['ant.project.name'] = 'SampleJUnitTests';
+    
+        cur['ant.version'] = 'Apache Ant(TM) version 1.8.2 compiled on July 6 2011';
+    
+        cur['basedir'] = '/cs/student/jkfett/MealCraft';
+    
+        cur['build'] = '/cs/student/jkfett/MealCraft/bin';
+    
+        cur['dist'] = '/cs/student/jkfett/MealCraft/dist';
+    
+        cur['DSTAMP'] = '20120221';
+    
+        cur['file.encoding'] = 'UTF-8';
+    
+        cur['file.encoding.pkg'] = 'sun.io';
+    
+        cur['file.separator'] = '/';
+    
+        cur['jar_name'] = 'MealCraft.jar';
+    
+        cur['java.awt.graphicsenv'] = 'sun.awt.X11GraphicsEnvironment';
+    
+        cur['java.awt.printerjob'] = 'sun.print.PSPrinterJob';
+    
+        cur['java.class.path'] = '/cs/student/jkfett/MealCraft/bin:/cs/student/jkfett/MealCraft/lib/junit-4.10.jar:/cs/student/jkfett/MealCraft/lib/sqlitejdbc-v056.jar:/usr/share/java/junit4-4.8.2.jar:/usr/share/java/ant-launcher.jar:/usr/share/java/ant.jar:/usr/share/java/ant/ant-junit.jar';
+    
+        cur['java.class.version'] = '50.0';
+    
+        cur['java.endorsed.dirs'] = '/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/endorsed';
+    
+        cur['java.ext.dirs'] = '/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/ext:/usr/java/packages/lib/ext';
+    
+        cur['java.home'] = '/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre';
+    
+        cur['java.io.tmpdir'] = '/tmp';
+    
+        cur['java.library.path'] = '/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/i386/server:/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/i386:/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/../lib/i386:/usr/lib/mpich2/lib:/usr/java/packages/lib/i386:/lib:/usr/lib';
+    
+        cur['java.runtime.name'] = 'OpenJDK Runtime Environment';
+    
+        cur['java.runtime.version'] = '1.6.0_24-b24';
+    
+        cur['java.specification.name'] = 'Java Platform API Specification';
+    
+        cur['java.specification.vendor'] = 'Sun Microsystems Inc.';
+    
+        cur['java.specification.version'] = '1.6';
+    
+        cur['java.vendor'] = 'Sun Microsystems Inc.';
+    
+        cur['java.vendor.url'] = 'http://java.sun.com/';
+    
+        cur['java.vendor.url.bug'] = 'http://java.sun.com/cgi-bin/bugreport.cgi';
+    
+        cur['java.version'] = '1.6.0_24';
+    
+        cur['java.vm.info'] = 'mixed mode';
+    
+        cur['java.vm.name'] = 'OpenJDK Server VM';
+    
+        cur['java.vm.specification.name'] = 'Java Virtual Machine Specification';
+    
+        cur['java.vm.specification.vendor'] = 'Sun Microsystems Inc.';
+    
+        cur['java.vm.specification.version'] = '1.0';
+    
+        cur['java.vm.vendor'] = 'Sun Microsystems Inc.';
+    
+        cur['java.vm.version'] = '20.0-b12';
+    
+        cur['lib'] = '/cs/student/jkfett/MealCraft/lib';
+    
+        cur['line.separator'] = '
+';
+    
+        cur['main-class'] = 'Brain';
+    
+        cur['os.arch'] = 'i386';
+    
+        cur['os.name'] = 'Linux';
+    
+        cur['os.version'] = '3.2.5-3.fc16.i686.PAE';
+    
+        cur['path.separator'] = ':';
+    
+        cur['project_name'] = 'MealCraft';
+    
+        cur['reports'] = '/cs/student/jkfett/MealCraft/reports';
+    
+        cur['res'] = '/cs/student/jkfett/MealCraft/res';
+    
+        cur['src'] = '/cs/student/jkfett/MealCraft/src';
+    
+        cur['sun.arch.data.model'] = '32';
+    
+        cur['sun.boot.class.path'] = '/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/resources.jar:/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/rt.jar:/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/jsse.jar:/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/jce.jar:/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/charsets.jar:/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/netx.jar:/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/plugin.jar:/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/rhino.jar:/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/modules/jdk.boot.jar:/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/classes';
+    
+        cur['sun.boot.library.path'] = '/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0/jre/lib/i386';
+    
+        cur['sun.cpu.endian'] = 'little';
+    
+        cur['sun.cpu.isalist'] = '';
+    
+        cur['sun.desktop'] = 'gnome';
+    
+        cur['sun.io.unicode.encoding'] = 'UnicodeLittle';
+    
+        cur['sun.java.command'] = 'org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner IngredientDbTester filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/cs/student/jkfett/MealCraft/reports/raw/TEST-IngredientDbTester.xml crashfile=/cs/student/jkfett/MealCraft/junitvmwatcher2026823487930850271.properties propsfile=/cs/student/jkfett/MealCraft/junit5936757004597567436.properties';
+    
+        cur['sun.java.launcher'] = 'SUN_STANDARD';
+    
+        cur['sun.jnu.encoding'] = 'UTF-8';
+    
+        cur['sun.management.compiler'] = 'HotSpot Tiered Compilers';
+    
+        cur['sun.os.patch.level'] = 'unknown';
+    
+        cur['TODAY'] = 'February 21 2012';
+    
+        cur['TSTAMP'] = '1203';
+    
+        cur['user.country'] = 'US';
+    
+        cur['user.dir'] = '/cs/student/jkfett/MealCraft';
+    
+        cur['user.home'] = '/cs/student/jkfett';
+    
+        cur['user.language'] = 'en';
+    
+        cur['user.name'] = 'jkfett';
+    
+        cur['user.timezone'] = '';
+    
+        cur['war_name'] = 'MealCraft.war';
+    </script><script language="JavaScript" type="text/javascript">
+        function displayProperties (name) {
+          var win = window.open('','JUnitSystemProperties','scrollbars=1,resizable=1');
+          var doc = win.document;
+          doc.open();
+          doc.write("<html><head><title>Properties of " + name + "</title>");
+          doc.write("<style type=\"text/css\">");
+          doc.write("body {font:normal 68% verdana,arial,helvetica; color:#000000; }");
+          doc.write("table tr td, table tr th { font-size: 68%; }");
+          doc.write("table.properties { border-collapse:collapse; border-left:solid 1 #cccccc; border-top:solid 1 #cccccc; padding:5px; }");
+          doc.write("table.properties th { text-align:left; border-right:solid 1 #cccccc; border-bottom:solid 1 #cccccc; background-color:#eeeeee; }");
+          doc.write("table.properties td { font:normal; text-align:left; border-right:solid 1 #cccccc; border-bottom:solid 1 #cccccc; background-color:#fffffff; }");
+          doc.write("h3 { margin-bottom: 0.5em; font: bold 115% verdana,arial,helvetica }");
+          doc.write("</style>");
+          doc.write("</head><body>");
+          doc.write("<h3>Properties of " + name + "</h3>");
+          doc.write("<div align=\"right\"><a href=\"javascript:window.close();\">Close</a></div>");
+          doc.write("<table class='properties'>");
+          doc.write("<tr><th>Name</th><th>Value</th></tr>");
+          for (prop in TestCases[name]) {
+            doc.write("<tr><th>" + prop + "</th><td>" + TestCases[name][prop] + "</td></tr>");
+          }
+          doc.write("</table>");
+          doc.write("</body></html>");
+          doc.close();
+          win.focus();
+        }
+      
+      </script>
+</head>
+<body>
+<h1>Unit Test Results.</h1>
+<table width="100%">
+<tr>
+<td align="left"></td><td align="right">Designed for use with <a href="http://www.junit.org/">JUnit</a> and <a href="http://ant.apache.org/">Ant</a>.</td>
+</tr>
+</table>
+<hr size="1">
+<h3>Class IngredientDbTester</h3>
+<table width="95%" cellspacing="2" cellpadding="5" border="0" class="details">
+<tr valign="top">
+<th width="80%">Name</th><th>Tests</th><th>Errors</th><th>Failures</th><th nowrap>Time(s)</th><th nowrap>Time Stamp</th><th>Host</th>
+</tr>
+<tr valign="top" class="Failure">
+<td><a href="0_IngredientDbTester.html" title="Display all tests">IngredientDbTester</a></td><td><a href="0_IngredientDbTester.html" title="Display all tests">7</a></td><td>0</td><td><a href="0_IngredientDbTester-fails.html" title="Display only failures">1</a></td><td>0.259</td><td>2012-02-21T20:03:31</td><td>bart.cs.ucsb.edu</td>
+</tr>
+</table>
+<h2>Tests</h2>
+<table width="95%" cellspacing="2" cellpadding="5" border="0" class="details">
+<tr valign="top">
+<th>Name</th><th>Status</th><th width="80%">Type</th><th nowrap>Time(s)</th>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="testAdd1"></a>testAdd1</td><td>Success</td><td></td><td>0.061</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="testAdd2"></a>testAdd2</td><td>Success</td><td></td><td>0.007</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="testAdd3"></a>testAdd3</td><td>Success</td><td></td><td>0.007</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="testAdd4"></a>testAdd4</td><td>Success</td><td></td><td>0.011</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="testSetQuantity1"></a>testSetQuantity1</td><td>Success</td><td></td><td>0.020</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="testSetQuantity2"></a>testSetQuantity2</td><td>Success</td><td></td><td>0.020</td>
+</tr>
+<tr valign="top" class="Failure">
+<td><a name="testprintAll"></a>testprintAll</td><td>Failure</td><td>expected:&lt;[1 bacon 54 54.0 1
+1 potatoes 20 20.0 1]
+&gt; but was:&lt;[bananna -42 54.0 -42.0 
+bacon -42 -42.0 3.0 lbs
+pork 54 -42.0 32.0 cups
+beer 54 54.0 1.0 liter]
+&gt;<br>
+<br>
+<code>junit.framework.ComparisonFailure: expected:&lt;[1 bacon 54 54.0 1<br>1 potatoes 20 20.0 1]<br>&gt; but was:&lt;[bananna -42 54.0 -42.0 <br>bacon -42 -42.0 3.0 lbs<br>pork 54 -42.0 32.0 cups<br>beer 54 54.0 1.0 liter]<br>&gt;<br>	at IngredientDbTester.testprintAll(Unknown Source)<br>
+</code></td><td>0.012</td>
+</tr>
+</table>
+<div class="Properties">
+<a href="javascript:displayProperties('.IngredientDbTester');">
+                    Properties &raquo;
+                </a>
+</div>
+</body>
+</html>
