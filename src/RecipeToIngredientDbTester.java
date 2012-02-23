@@ -1,9 +1,11 @@
 import junit.framework.*;
+import java.util.ArrayList;
 
 public class RecipeToIngredientDbTester extends TestCase{
     private IngredientDb ingr;
     private RecipeBookDb recipeDb;
     private RecipeToIngredientsDb rToIng;
+    private ArrayList<String> a;
     protected void setUp() throws Exception{
         ingr = new IngredientDb(); 
 	recipeDb = new RecipeBookDb();
@@ -19,13 +21,22 @@ public class RecipeToIngredientDbTester extends TestCase{
 
     
 
-    public void testAdd1() throws Exception {
+    public void testGetQuantity1() throws Exception {
 	rToIng.addRelation("bacon stew", "bacon", 7, "lbs");
-
-	
-	assertEquals(-42.0, ingr.getId("bacon"));
+	//	String row = rToIng.getRecipeId()+" ";
+	    //+rToIng.getIngredientId()+" "+rToIng.getIngredientQuantity" "+rToIng.getUnits();
+	ArrayList<String>  rs;
+	rs=rToIng.getRecipesThatRequire("bacon");
+	double quant = rToIng.getQuantity("bacon stew", "bacon");
+	assertEquals(7.0,  quant);
 	ingr.close();
   }
+    public void testGetUnits1() throws Exception {
+	rToIng.addRelation("bacon stew", "bacon", 7, "lbs");
+	String units = rToIng.getUnits("bacon stew", "bacon");
+	assertEquals("lbs",  units);
+	ingr.close();
+    }
     /*   public void testAdd2() throws Exception {
 	Ingredient bananna = new Ingredient("bananna", 54.0);
 	
