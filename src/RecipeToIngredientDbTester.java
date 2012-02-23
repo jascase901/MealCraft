@@ -3,6 +3,7 @@ public class IngredientDbTester extends TestCase{
     private IngredientDb ingr;
     protected void setUp() throws Exception{
   	ingr = new IngredientDb(); 
+	recipedb = new RecipeDb();
     }
    
   protected void tearDown() throws Exception{
@@ -11,16 +12,16 @@ public class IngredientDbTester extends TestCase{
 
 
   }
+
     
 
     public void testAdd1() throws Exception {
-	Ingredient bacon = new Ingredient("bacon");
-	Quantity quant = new Quantity(1, "cup");
+	
 	ingr.addIngredient(bacon, quant);
-	assertEquals(-42.0, ingr.getPrice("bacon"));
+	assertEquals(-42.0, ingr.ge);
 	ingr.close();
   }
-   public void testAdd2() throws Exception {
+    /*   public void testAdd2() throws Exception {
 	Ingredient bananna = new Ingredient("bananna", 54.0);
 	
 	ingr.addIngredient(bananna);
@@ -75,5 +76,5 @@ public class IngredientDbTester extends TestCase{
 	
 	assertEquals("1 bacon 54 54.0 1\n1 potatoes 20 20.0 1\n",ingr.printAll());
 	
-	}
+	}*/
 }

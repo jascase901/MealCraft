@@ -7,7 +7,7 @@ public class IngredientDb extends Database{
     public IngredientDb() throws Exception{
 	super();
 	 //stat.executeUpdate("drop table  if exists pantry;");
-	 stat.executeUpdate("create table  if not exists  pantry (id  integer primary key , name unique, calories, price, amount, units);");
+	 stat.executeUpdate("create table  if not exists  pantry (recipe_id  integer primary key , name unique, calories, price, amount, units);");
 	        
     }
     /**
@@ -30,6 +30,21 @@ public class IngredientDb extends Database{
 
 	return quantity;
    }
+    public int getId(String name) throws Exception{
+	int id = -42;
+	ResultSet rs = stat.executeQuery("select * from pantry;");
+	if (rs!=null){
+	while (rs.next()){
+	    if (name.equals(rs.getString("name")))
+		id = rs.getInt("recipe_id");
+ 
+	}
+	}
+	rs.close();
+
+	return id;
+
+    }
     
     /**
        returns calories of item
