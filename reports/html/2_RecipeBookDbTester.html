@@ -1,13 +1,13 @@
 <html xmlns:stringutils="xalan://org.apache.tools.ant.util.StringUtils" xmlns:lxslt="http://xml.apache.org/xslt">
 <head>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Unit Test Results: IngredientDbTester</title>
+<title>Unit Test Results: RecipeBookDbTester</title>
 <link title="Style" type="text/css" rel="stylesheet" href="stylesheet.css">
 <script language="JavaScript" type="text/javascript">
         var TestCases = new Array();
         var cur;
         
-    cur = TestCases['.IngredientDbTester'] = new Array();
+    cur = TestCases['.RecipeBookDbTester'] = new Array();
     
         cur['ant.core.lib'] = '/usr/share/java/ant.jar';
     
@@ -136,7 +136,7 @@
     
         cur['sun.io.unicode.encoding'] = 'UnicodeLittle';
     
-        cur['sun.java.command'] = 'org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner IngredientDbTester filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/cs/student/shadowkage1/MealCraft/reports/raw/TEST-IngredientDbTester.xml crashfile=/cs/student/shadowkage1/MealCraft/junitvmwatcher711536783752405919.properties propsfile=/cs/student/shadowkage1/MealCraft/junit1769506685777643475.properties';
+        cur['sun.java.command'] = 'org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner RecipeBookDbTester filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/cs/student/shadowkage1/MealCraft/reports/raw/TEST-RecipeBookDbTester.xml crashfile=/cs/student/shadowkage1/MealCraft/junitvmwatcher6279785476300267174.properties propsfile=/cs/student/shadowkage1/MealCraft/junit1415095766492520672.properties';
     
         cur['sun.java.launcher'] = 'SUN_STANDARD';
     
@@ -201,13 +201,13 @@
 </tr>
 </table>
 <hr size="1">
-<h3>Class IngredientDbTester</h3>
+<h3>Class RecipeBookDbTester</h3>
 <table width="95%" cellspacing="2" cellpadding="5" border="0" class="details">
 <tr valign="top">
 <th width="80%">Name</th><th>Tests</th><th>Errors</th><th>Failures</th><th nowrap>Time(s)</th><th nowrap>Time Stamp</th><th>Host</th>
 </tr>
 <tr valign="top" class="Failure">
-<td><a href="0_IngredientDbTester.html" title="Display all tests">IngredientDbTester</a></td><td><a href="0_IngredientDbTester.html" title="Display all tests">7</a></td><td>0</td><td><a href="0_IngredientDbTester-fails.html" title="Display only failures">1</a></td><td>0.145</td><td>2012-02-23T00:30:37</td><td>dot.cs.ucsb.edu</td>
+<td><a href="2_RecipeBookDbTester.html" title="Display all tests">RecipeBookDbTester</a></td><td><a href="2_RecipeBookDbTester.html" title="Display all tests">4</a></td><td>0</td><td><a href="2_RecipeBookDbTester-fails.html" title="Display only failures">1</a></td><td>0.091</td><td>2012-02-23T00:30:39</td><td>dot.cs.ucsb.edu</td>
 </tr>
 </table>
 <h2>Tests</h2>
@@ -216,38 +216,23 @@
 <th>Name</th><th>Status</th><th width="80%">Type</th><th nowrap>Time(s)</th>
 </tr>
 <tr valign="top" class="TableRowColor">
-<td><a name="testAdd1"></a>testAdd1</td><td>Success</td><td></td><td>0.040</td>
-</tr>
-<tr valign="top" class="TableRowColor">
-<td><a name="testAdd2"></a>testAdd2</td><td>Success</td><td></td><td>0.008</td>
-</tr>
-<tr valign="top" class="TableRowColor">
-<td><a name="testAdd3"></a>testAdd3</td><td>Success</td><td></td><td>0.008</td>
-</tr>
-<tr valign="top" class="TableRowColor">
-<td><a name="testAdd4"></a>testAdd4</td><td>Success</td><td></td><td>0.010</td>
-</tr>
-<tr valign="top" class="TableRowColor">
-<td><a name="testSetQuantity1"></a>testSetQuantity1</td><td>Success</td><td></td><td>0.018</td>
-</tr>
-<tr valign="top" class="TableRowColor">
-<td><a name="testSetQuantity2"></a>testSetQuantity2</td><td>Success</td><td></td><td>0.017</td>
+<td><a name="testAdd1"></a>testAdd1</td><td>Success</td><td></td><td>0.036</td>
 </tr>
 <tr valign="top" class="Failure">
-<td><a name="testprintAll"></a>testprintAll</td><td>Failure</td><td>expected:&lt;[1 bacon 54 54.0 1
-1 potatoes 20 20.0 1]
-&gt; but was:&lt;[bananna -42 54.0 -42.0 
-bacon -42 -42.0 3.0 lbs
-pork 54 -42.0 32.0 cups
-beer 54 54.0 1.0 liter]
-&gt;<br>
+<td><a name="testAdd2"></a>testAdd2</td><td>Failure</td><td>expected:&lt;brown bacon[ ]&gt; but was:&lt;brown bacon[]&gt;<br>
 <br>
-<code>junit.framework.ComparisonFailure: expected:&lt;[1 bacon 54 54.0 1<br>1 potatoes 20 20.0 1]<br>&gt; but was:&lt;[bananna -42 54.0 -42.0 <br>bacon -42 -42.0 3.0 lbs<br>pork 54 -42.0 32.0 cups<br>beer 54 54.0 1.0 liter]<br>&gt;<br>	at IngredientDbTester.testprintAll(Unknown Source)<br>
-</code></td><td>0.011</td>
+<code>junit.framework.ComparisonFailure: expected:&lt;brown bacon[ ]&gt; but was:&lt;brown bacon[]&gt;<br>	at RecipeBookDbTester.testAdd2(Unknown Source)<br>
+</code></td><td>0.013</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="testSetQuantity1"></a>testSetQuantity1</td><td>Success</td><td></td><td>0.006</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="testprintAll"></a>testprintAll</td><td>Success</td><td></td><td>0.008</td>
 </tr>
 </table>
 <div class="Properties">
-<a href="javascript:displayProperties('.IngredientDbTester');">
+<a href="javascript:displayProperties('.RecipeBookDbTester');">
                     Properties &raquo;
                 </a>
 </div>
