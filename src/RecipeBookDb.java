@@ -35,9 +35,21 @@ public class RecipeBookDb extends Database{
 	}
 
 
-
-
     }
+	public int getId(String name) throws Exception{
+	    int id = -42;
+	    ResultSet rs = stat.executeQuery("select * from recipebook;");
+	    if (rs!=null){
+		while (rs.next()){
+		    if (name.equals(rs.getString("name")))
+			id = rs.getInt("recipe_id");
+ 
+		}
+	    }
+	    rs.close();
+	    return id;
+	}
+    
     private Recipe getRecipe(String name) throws Exception{
 	Recipe recipe=null;
 	ResultSet rs = stat.executeQuery("select * from recipebook;");

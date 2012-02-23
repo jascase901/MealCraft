@@ -1,9 +1,13 @@
 import junit.framework.*;
-public class IngredientDbTester extends TestCase{
+
+public class RecipeToIngredientDbTester extends TestCase{
     private IngredientDb ingr;
+    private RecipeBookDb recipeDb;
+    private RecipeToIngredientsDb rToIng;
     protected void setUp() throws Exception{
-  	ingr = new IngredientDb(); 
-	recipedb = new RecipeDb();
+        ingr = new IngredientDb(); 
+	recipeDb = new RecipeBookDb();
+	rToIng= new RecipeToIngredientsDb();
     }
    
   protected void tearDown() throws Exception{
@@ -16,9 +20,10 @@ public class IngredientDbTester extends TestCase{
     
 
     public void testAdd1() throws Exception {
+	rToIng.addRelation("bacon stew", "bacon", 7, "lbs");
+
 	
-	ingr.addIngredient(bacon, quant);
-	assertEquals(-42.0, ingr.ge);
+	assertEquals(-42.0, ingr.getId("bacon"));
 	ingr.close();
   }
     /*   public void testAdd2() throws Exception {
