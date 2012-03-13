@@ -38,11 +38,12 @@ public class RecipeToIngredientDbTester extends TestCase{
 
 
 		rToIng= new RecipeToIngredientsDb();
+		
 		rToIng.addRelation("bacon stew", "bacon", 7, "lbs");
-		rToIng.addRelation("bacon stew", "beer", 2, "liters");
 		rToIng.addRelation("bacon stew", "beer", 8, "liters");
 		rToIng.addRelation("bacon hotdog", "bacon", 2, "lbs");
 		rToIng.addRelation("bacon hotdog", "hotdog", 2, "lbs");
+		
 	}
 
 	protected void tearDown() throws Exception{
@@ -83,6 +84,15 @@ public class RecipeToIngredientDbTester extends TestCase{
 		String units = rToIng.getUnits("bacon hotdog","hotdog");
 		assertEquals("lbs", units);
 
+	}
+	
+	public void testGetQuantity3() throws Exception{
+		double quant = rToIng.getQuantity("bacon stew", "beer");
+		assertEquals(8.0, quant);
+	}
+	public void testGetUnits3() throws Exception{
+		String units = rToIng.getUnits("bacon stew","beer");
+		assertEquals("liters", units);
 	}
 	//Gets all ingredients of r a recipe
 	public void testIngredientsThatRequire1() throws Exception{

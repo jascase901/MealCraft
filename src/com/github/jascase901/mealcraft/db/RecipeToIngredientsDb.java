@@ -21,11 +21,11 @@ public class RecipeToIngredientsDb extends Database{
 			PreparedStatement prep = conn.prepareStatement(
 					"insert into recipe_to_ingredients  values (?, ?, ?,?);");
 			//checks if ingredient is in db
-			if (true){
+			//if (!isUnique(recipe_id, ingredient_id)){
 				prep.setInt(1,recipe_id);
 				prep.setInt(2,ingredient_id);
 				prep.setDouble(3, quantity);
-				prep.setString(4,"lbs");
+				prep.setString(4, units);
 				prep.addBatch();
 
 				conn.setAutoCommit(false);
@@ -34,20 +34,20 @@ public class RecipeToIngredientsDb extends Database{
 			}
 
 
-		}
+		//}
 
 	}
 
 	//sql query that gets the quantity for how many ingredients are required for recipe
 	public String[] getRecipesThatRequire( String ingredient_name) throws Exception{
-String[] str = new String[56];
+		String[] str = new String[56];
+		int ingredient_id = rb.getId(ingredient_name); 
+		String sql ="SELECT recipebook.name FROM recipe_to_ingredients LEFT JOIN recipebook on recipe_to_ingredients.recipe_id=recipebook.recipe_id where recipe_to_ingredients.ingredient_id="+ingredient_id+";";
+
+
+
 		
-		String sql= "select i.name from recipe_to_ingredients n"  +" LEFT JOIN recipebook r"
-				+"      ON r.recipe_id=n.recipe_id"
-				+" LEFT JOIN pantry i"
-				+"      ON n.ingredient_id=i.ingredient_id;";
-		
-		ArrayList<String> rsArray = collectArrayListOfSql(ingredient_name, sql, rb);
+		ArrayList<String> rsArray = collectArrayListOfSql(ingredient_name, sql);
 		str=rsArray.toArray(str);
 	
 
@@ -62,13 +62,11 @@ String[] str = new String[56];
 	//sql query that gets the quantity for how many ingredients are required for recipe
 	public String[] getIngredientsThatRequire( String recipe_name) throws Exception{
 		String[] str = new String[56];
+		int recipe_id= rb.getId(recipe_name);
 		
-		String sql= "select i.name from recipe_to_ingredients n"  +" LEFT JOIN recipebook r"
-				+"      ON r.recipe_id=n.recipe_id"
-				+" LEFT JOIN pantry i"
-				+"      ON n.ingredient_id=i.ingredient_id;";
-		
-		ArrayList<String> rsArray = collectArrayListOfSql(recipe_name, sql, ingr);
+		String sql = "SELECT pantry.name FROM recipe_to_ingredients LEFT JOIN pantry on recipe_to_ingredients.ingredient_id=pantry.ingredient_id where recipe_to_ingredients.recipe_id="+recipe_id +";";
+
+		ArrayList<String> rsArray = collectArrayListOfSql(recipe_name, sql);
 		str=rsArray.toArray(str);
 	
 
@@ -85,29 +83,35 @@ String[] str = new String[56];
 	//returns the quantity of ingredient in recipe
 	public double  getQuantity( String recipe_name,String ingredient_name) throws Exception{
 		int recipe_id = rb.getId(recipe_name);
+		int ingredient_id = ingr.getId(ingredient_name);
 		double quantity = -42;//means there is nothing there
 		ResultSet rs = stat.executeQuery("SELECT ingredient_quantity "   
 				+"FROM " 
 				+"recipe_to_ingredients "
-				+"WHERE "+recipe_id+ "=recipe_to_ingredients.recipe_id");
+				+"WHERE "+recipe_id+ "=recipe_to_ingredients.recipe_id"
+				+" and "+ingredient_id +"=recipe_to_ingredients.ingredient_id");
 		if (rs.next())
-			quantity = Double.parseDouble(rs.getString(1));
-
+			quantity = rs.getDouble(1);
+		//System.out.println(units);
 		rs.close();
 
 		return quantity;
 	}
 	
 
+	
+
 
 
 	public String  getUnits( String recipe_name,String ingredient_name) throws Exception{
 		int recipe_id = rb.getId(recipe_name);
+		int ingredient_id = ingr.getId(ingredient_name);
 		String units = "";//means there is nothing there
 		ResultSet rs = stat.executeQuery("SELECT units "   
 				+"FROM " 
 				+"recipe_to_ingredients "
-				+"WHERE "+recipe_id+ "=recipe_to_ingredients.recipe_id");
+				+"WHERE "+recipe_id+ "=recipe_to_ingredients.recipe_id"
+				+" and "+ingredient_id +"=recipe_to_ingredients.ingredient_id");
 		if (rs.next())
 			units = rs.getString(1);
 		//System.out.println(units);
@@ -153,8 +157,7 @@ String[] str = new String[56];
 	 * @param sql: the sql you wish to exectue
 	 * @pre data base initialised 
 	 */
-	private ArrayList<String> collectArrayListOfSql(String name, String sql, Indexable db) throws Exception{
-		int id =db.getId(name);
+	private ArrayList<String> collectArrayListOfSql(String name, String sql) throws Exception{
 		ResultSet rs = stat.executeQuery(sql);
 		ArrayList<String> rsArray = rsToArrayList(rs);
 		rs.close();
@@ -164,6 +167,7 @@ String[] str = new String[56];
 	
 	//any class that uses this needs to import array list, only works for 1 column
 	private ArrayList<String> rsToArrayList(ResultSet rs) throws Exception{
+		//removeNulls("name", "pantry");
 		ArrayList<String> str = new ArrayList<String>();
 		while(rs.next()){
 			str.add(rs.getString(1));

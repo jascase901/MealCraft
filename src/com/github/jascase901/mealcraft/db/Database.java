@@ -11,6 +11,11 @@ public abstract class Database{
 	     DriverManager.getConnection("jdbc:sqlite:MealCraft.db");
 	 stat = conn.createStatement();
     }
+    public void removeNulls(String cat, String dbname) throws Exception{
+    	String sql = "Delete "+ dbname+"where "+cat+" is NULL;";
+    	stat.executeQuery(sql);
+    	
+    }
     public void close() throws Exception{
 	conn.close();
     }

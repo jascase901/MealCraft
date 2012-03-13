@@ -66,11 +66,11 @@ public class IngredientDbTester extends TestCase{
     }
     public void testGetId1() throws Exception{
 	int id = ingr.getId("bacon");
-	assertEquals(1, id);
+	assertEquals(2, id);
     }
   public void testGetId2() throws Exception{
 	int id = ingr.getId("bananna");
-	assertEquals(2, id);
+	assertEquals(4, id);
     }
 
   public void testGetMaxid() throws Exception{

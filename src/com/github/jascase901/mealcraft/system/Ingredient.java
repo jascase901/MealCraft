@@ -1,7 +1,7 @@
 package com.github.jascase901.mealcraft.system;
 
 //import sql stuff
-public class Ingredient extends Item{
+public class Ingredient {
     String name;
     int calories;
    
