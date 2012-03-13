@@ -2,6 +2,8 @@ package com.github.jascase901.mealcraft.db;
 import java.sql.*;
 import java.util.ArrayList;
 
+import com.github.jascase901.mealcraft.system.Ingredient;
+
 public class RecipeToIngredientsDb extends Database{
 	IngredientDb ingr = new IngredientDb();
 	RecipeBookDb rb = new RecipeBookDb();
@@ -18,6 +20,13 @@ public class RecipeToIngredientsDb extends Database{
 		if  (getQuantity(recipe_name, ingredient_name) ==-42){
 			int ingredient_id = ingr.getId(ingredient_name);
 			int recipe_id =rb.getId(recipe_name); 
+			
+			if (ingredient_id == -42){
+				Ingredient ingredient = new Ingredient();
+				ingr.addIngredient(ingredient, 0, units);
+				ingredient_id = ingr.getId(ingredient_name);
+			}
+					
 			PreparedStatement prep = conn.prepareStatement(
 					"insert into recipe_to_ingredients  values (?, ?, ?,?);");
 			//checks if ingredient is in db
