@@ -38,6 +38,8 @@ import javax.swing.text.Document;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Main extends JFrame {
 
@@ -58,12 +60,16 @@ public class Main extends JFrame {
 	private String[] units = {"lbs","liters"};
 	private JComboBox comboBox = new JComboBox();
 	private JButton nextButton2 = new JButton("GO !!");
-	private JTextField textField_Ingredient;
-	private JTextField textField_Quantity;
-	private JTextField textField_Calories;
+	private JTextField txtEgBacon;
+	private JTextField txtEg;
+	private JTextField txtEg_1;
 	private JTextField textField_Price;
 	private IngredientDb ingr;
 	private JComboBox comboBox_1;
+	private boolean firstClickName = true;
+	private boolean firstClickQuantity = true;
+	private boolean firstClickCalorie = true;
+	private boolean firstClickPrice = true;
 
 	/**
 	 * Launch the application.
@@ -326,6 +332,15 @@ public class Main extends JFrame {
 			}
 		});
 		nextButton2.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
+		
+		JButton btnBack = new JButton("<< Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+		        CardLayout c3 = (CardLayout)(card.getLayout());
+		        c3.show(card, "profile");
+			}
+		});
+		btnBack.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
 		GroupLayout gl_profileSelect = new GroupLayout(profileSelect);
 		gl_profileSelect.setHorizontalGroup(
 			gl_profileSelect.createParallelGroup(Alignment.LEADING)
@@ -338,9 +353,11 @@ public class Main extends JFrame {
 							.addGap(500)
 							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 224, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_profileSelect.createSequentialGroup()
-							.addGap(562)
+							.addGap(507)
+							.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
 							.addComponent(nextButton2, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(500, Short.MAX_VALUE))
+					.addContainerGap(510, Short.MAX_VALUE))
 		);
 		gl_profileSelect.setVerticalGroup(
 			gl_profileSelect.createParallelGroup(Alignment.LEADING)
@@ -350,8 +367,10 @@ public class Main extends JFrame {
 					.addGap(42)
 					.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(47)
-					.addComponent(nextButton2, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(264, Short.MAX_VALUE))
+					.addGroup(gl_profileSelect.createParallelGroup(Alignment.LEADING)
+						.addComponent(nextButton2, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(269, Short.MAX_VALUE))
 		);
 		profileSelect.setLayout(gl_profileSelect);
 		
@@ -500,17 +519,27 @@ public class Main extends JFrame {
 					.addContainerGap(12, Short.MAX_VALUE))
 		);
 		
-		textField_Ingredient = new JTextField();
-		textField_Ingredient.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		textField_Ingredient.setColumns(10);
+		txtEgBacon = new JTextField();
+		txtEgBacon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if(firstClickName){
+					txtEgBacon.setText("");
+					firstClickName = false;
+				}
+			}
+		});
+		txtEgBacon.setText("Bacon");
+		txtEgBacon.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+		txtEgBacon.setColumns(10);
 		
 		JButton pantryAddBtn = new JButton("Add");
 		pantryAddBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					ingr = new IngredientDb();
-					Ingredient ingredient = new Ingredient(textField_Ingredient.getText(),Integer.parseInt(textField_Calories.getText()),Double.parseDouble(textField_Price.getText()));
-					ingr.addIngredient(ingredient, Double.parseDouble(textField_Quantity.getText()),(String)comboBox_1.getSelectedItem());
+					Ingredient ingredient = new Ingredient(txtEgBacon.getText(),Integer.parseInt(txtEg_1.getText()),Double.parseDouble(textField_Price.getText()));
+					ingr.addIngredient(ingredient, Double.parseDouble(txtEg.getText()),(String)comboBox_1.getSelectedItem());
 					ingr.close();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -526,61 +555,90 @@ public class Main extends JFrame {
 		});
 		pantryAddBtn.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		
-		JLabel lblNewLabel_2 = new JLabel("eg) Bacon");
-		lblNewLabel_2.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
+		txtEg = new JTextField();
+		txtEg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(firstClickQuantity){
+					txtEg.setText("");
+					firstClickQuantity = false;
+				}
+			}
+		});
+		txtEg.setText("4.2");
+		txtEg.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+		txtEg.setColumns(10);
 		
-		textField_Quantity = new JTextField();
-		textField_Quantity.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		textField_Quantity.setColumns(10);
-		
-		JLabel lblEgLbl = new JLabel("eg) 4.2");
-		lblEgLbl.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
-		
-		textField_Calories = new JTextField();
-		textField_Calories.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		textField_Calories.setColumns(10);
-		
-		JLabel lblEg = new JLabel("eg) 420");
-		lblEg.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
+		txtEg_1 = new JTextField();
+		txtEg_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(firstClickCalorie){
+					txtEg_1.setText("");
+					firstClickCalorie = false;
+				}
+			}
+		});
+		txtEg_1.setText("420");
+		txtEg_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+		txtEg_1.setColumns(10);
 		
 		textField_Price = new JTextField();
+		textField_Price.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(firstClickPrice){
+					textField_Price.setText("");
+					firstClickPrice = false;
+				}
+			}
+		});
+		textField_Price.setText("19.99");
 		textField_Price.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
 		textField_Price.setColumns(10);
 		
-		JLabel lblEg_1 = new JLabel("eg) 19.99");
-		lblEg_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
-		
 		comboBox_1 = new JComboBox(units);
+		
+		JButton btnRemove = new JButton("Remove");
+		btnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					ingr = new IngredientDb();
+					ingr.removeKey("name", "pantry", txtEgBacon.getText());
+					ingr.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				redoPTable();
+				pantryTable.revalidate();
+				pantryTable.repaint();
+				scrollPane.setViewportView(pantryTable);
+				scrollPane.revalidate();
+				scrollPane.repaint();
+			}
+		});
+		btnRemove.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
-			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel_2.createSequentialGroup()
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING, gl_panel_2.createSequentialGroup()
-							.addGap(827)
-							.addComponent(pantryAddBtn, GroupLayout.PREFERRED_SIZE, 112, Short.MAX_VALUE))
+			gl_panel_2.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_2.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField_Ingredient, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
+							.addComponent(txtEgBacon, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE)
+							.addGap(29)
+							.addComponent(txtEg, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
 							.addGap(30)
-							.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblEgLbl, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_panel_2.createSequentialGroup()
-									.addComponent(textField_Quantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)))
-							.addGap(30)
-							.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField_Calories, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblEg, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-							.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblEg_1, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))))
-					.addGap(97))
+							.addComponent(txtEg_1, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
+							.addGap(37)
+							.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(pantryAddBtn, GroupLayout.PREFERRED_SIZE, 120, Short.MAX_VALUE))
+						.addComponent(btnRemove, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
 		);
 		gl_panel_2.setVerticalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
@@ -588,31 +646,16 @@ public class Main extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_2.createSequentialGroup()
-							.addComponent(textField_Calories, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addComponent(lblEg, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_2.createSequentialGroup()
-							.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(comboBox_1)
-								.addComponent(textField_Quantity, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblEgLbl, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_2.createSequentialGroup()
-							.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_2.createSequentialGroup()
-									.addComponent(textField_Ingredient, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblNewLabel_2)
-									.addGap(14))
-								.addGroup(gl_panel_2.createSequentialGroup()
-									.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-										.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_panel_2.createSequentialGroup()
-											.addGap(37)
-											.addComponent(lblEg_1, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)))
-									.addPreferredGap(ComponentPlacement.RELATED)))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(pantryAddBtn)))
+							.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
+								.addComponent(txtEg_1, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+								.addComponent(pantryAddBtn))
+							.addPreferredGap(ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+							.addComponent(btnRemove, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING, false)
+							.addComponent(txtEg, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+							.addComponent(comboBox_1, Alignment.LEADING)
+							.addComponent(txtEgBacon)))
 					.addContainerGap())
 		);
 		panel_2.setLayout(gl_panel_2);

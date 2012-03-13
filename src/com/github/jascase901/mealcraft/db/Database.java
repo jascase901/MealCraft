@@ -12,9 +12,10 @@ public abstract class Database{
 		stat = conn.createStatement();
 	}
 	public void removeKey(String cat, String dbname, String rm_condition) throws Exception{
-		String sql = "Delete FROM "+ dbname+" WHERE "+cat+" IS"+ rm_condition+";";
+		String sql = "Delete FROM "+ dbname+" WHERE "+cat+" = '"+rm_condition+"';";
+		System.out.println(sql);
 		//String sql ="Delete FROM pantry WHERE name IS NULL;";
-		stat.execute(sql);
+		stat.executeUpdate(sql);
 
 	}
 	public void close() throws Exception{
