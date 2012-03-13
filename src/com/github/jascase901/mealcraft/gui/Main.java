@@ -32,10 +32,16 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.border.SoftBevelBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
+
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -43,6 +49,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.Box;
 import javax.swing.JTextArea;
 import javax.swing.JDesktopPane;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class Main extends JFrame {
 
@@ -56,6 +64,19 @@ public class Main extends JFrame {
 	private JTable pantryTable;
 	private int counter;
 	private JTable recipeBookTable;
+	private JLabel lblNewLabel = new JLabel();
+	private JButton nextButton = new JButton("Create my Profile!");
+	private JDatePicker panel_1 = new JDatePicker();
+	private JScrollPane scrollPane = new JScrollPane();
+	private String[] profiles = {};
+	private String[] units = {"lbs","liters"};
+	private JComboBox comboBox = new JComboBox();
+	private JButton nextButton2 = new JButton("GO !!");
+	private JTextField textField_Ingredient;
+	private JTextField textField_Quantity;
+	private JTextField textField_Calories;
+	private JTextField textField_Price;
+	private IngredientDb ingr;
 
 	/**
 	 * Launch the application.
@@ -115,6 +136,9 @@ public class Main extends JFrame {
 		JButton btnNewButton_1 = new JButton("Choose Profile...");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				comboBox.revalidate();
+				comboBox.validate();
+				comboBox.repaint();
 		        CardLayout c2 = (CardLayout)(card.getLayout());
 		        c2.show(card, "profileSelect");
 			}
@@ -151,6 +175,23 @@ public class Main extends JFrame {
 		name.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
 		name.setColumns(10);
 		
+		Document textFieldDoc = name.getDocument();
+		textFieldDoc.addDocumentListener(new DocumentListener() {
+		   public void changedUpdate(DocumentEvent e) {
+		      updated(e);
+		   }
+		   public void insertUpdate(DocumentEvent e) {
+		      updated(e);
+		   }
+		   public void removeUpdate(DocumentEvent e) {
+		      updated(e);
+		   }
+		   private void updated(DocumentEvent e) {
+		      boolean enable = e.getDocument().getLength() > 0;
+		      nextButton.setEnabled(enable);
+		   }
+		});
+		
 		JLabel lblPantryName = new JLabel("Pantry Name:");
 		lblPantryName.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
 		
@@ -166,8 +207,7 @@ public class Main extends JFrame {
 			}
 		});
 		
-		JButton nextButton = new JButton("Create my Profile!");
-		nextButton.setEnabled(true);
+		nextButton.setEnabled(false);
 
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -176,8 +216,8 @@ public class Main extends JFrame {
 				Profile myProfile= new Profile(inputProfileName, inputPantryName);
 				
 				currentProfile = name.getText();
-				
-				
+				lblNewLabel.setText(currentProfile);
+				lblNewLabel.repaint();
 				
 				try {
 				ProfileDb myProfileDb = new ProfileDb();
@@ -188,6 +228,17 @@ public class Main extends JFrame {
 				catch(Exception ex){
 					JDialog err = new JDialog();
 					err.setEnabled(true);
+					
+				}
+				
+				try{
+					ProfileDb myProfileDb = new ProfileDb();
+					profiles = myProfileDb.toStringArray();
+					System.out.println("YAY");
+				}
+				catch(Exception a){
+					a.printStackTrace();
+					System.out.println("GAH");
 					
 				}
 
@@ -238,7 +289,6 @@ public class Main extends JFrame {
 		
 		JLabel lblSelectProfile = new JLabel("Select Profile...");
 		lblSelectProfile.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
-		String[] profiles = {};
 	try{
 		ProfileDb myProfileDb = new ProfileDb();
 		profiles = myProfileDb.toStringArray();
@@ -250,20 +300,36 @@ public class Main extends JFrame {
 		
 	}
 		//WE ADDDED THIS
-		final JComboBox comboBox = new JComboBox(profiles);
+	
+	DefaultComboBoxModel model = new DefaultComboBoxModel(profiles);
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if((String)comboBox.getSelectedItem() != "" && (String)comboBox.getSelectedItem() != null){
+					nextButton2.setEnabled(true);
+				}
+				if((String)comboBox.getSelectedItem() == "" || (String)comboBox.getSelectedItem() == null){
+					nextButton2.setEnabled(false);
+				}
+			}
+		});
+	
+		comboBox.setModel(model);
 		comboBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+		nextButton2.setEnabled(false);
 		
 		
-		JButton nextButton2 = new JButton("GO !!");
 		nextButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
 				currentProfile = (String)comboBox.getSelectedItem();
 				lblProfile= new JLabel(currentProfile);
-		        CardLayout c5 = (CardLayout)(card.getLayout());
-		        c5.show(card, "mainMenu");
-		        
+								
+				CardLayout c5 = (CardLayout)(card.getLayout());
+				c5.show(card, "mainMenu");
+				
+		        System.out.println(currentProfile);
+		        lblNewLabel.setText(currentProfile);
+		        lblNewLabel.repaint();
 			}
 		});
 		nextButton2.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
@@ -396,17 +462,14 @@ public class Main extends JFrame {
 		
 		JLabel lblPrice = new JLabel("Price\r\n");
 		lblPrice.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		scrollPane.setViewportView(pantryTable);
 		
-		
-		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		
 		GroupLayout gl_tabBodyPantry = new GroupLayout(tabBodyPantry);
 		gl_tabBodyPantry.setHorizontalGroup(
 			gl_tabBodyPantry.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_tabBodyPantry.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(pantryTable, GroupLayout.PREFERRED_SIZE, 1005, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 				.addGroup(gl_tabBodyPantry.createSequentialGroup()
 					.addGap(89)
 					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
@@ -414,9 +477,15 @@ public class Main extends JFrame {
 					.addComponent(lblQuantity)
 					.addGap(189)
 					.addComponent(lblCalories, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
 					.addComponent(lblPrice, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
 					.addGap(103))
+				.addGroup(gl_tabBodyPantry.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_tabBodyPantry.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(panel_2, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE))
+					.addGap(23))
 		);
 		gl_tabBodyPantry.setVerticalGroup(
 			gl_tabBodyPantry.createParallelGroup(Alignment.LEADING)
@@ -428,10 +497,122 @@ public class Main extends JFrame {
 							.addComponent(lblCalories, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
 							.addComponent(lblQuantity)
 							.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 384, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(pantryTable, GroupLayout.PREFERRED_SIZE, 476, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(69, Short.MAX_VALUE))
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(12, Short.MAX_VALUE))
 		);
+		
+		textField_Ingredient = new JTextField();
+		textField_Ingredient.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+		textField_Ingredient.setColumns(10);
+		
+		JButton pantryAddBtn = new JButton("Add");
+		pantryAddBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					ingr = new IngredientDb();
+					//Ingredient ingredient = new Ingredient(textField_Ingredient.getText(),)
+					//ingr.addIngredient();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		pantryAddBtn.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		
+		JLabel lblNewLabel_2 = new JLabel("eg) Bacon");
+		lblNewLabel_2.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
+		
+		textField_Quantity = new JTextField();
+		textField_Quantity.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+		textField_Quantity.setColumns(10);
+		
+		JLabel lblEgLbl = new JLabel("eg) 4.2");
+		lblEgLbl.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
+		
+		textField_Calories = new JTextField();
+		textField_Calories.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+		textField_Calories.setColumns(10);
+		
+		JLabel lblEg = new JLabel("eg) 420");
+		lblEg.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
+		
+		textField_Price = new JTextField();
+		textField_Price.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+		textField_Price.setColumns(10);
+		
+		JLabel lblEg_1 = new JLabel("eg) 19.99");
+		lblEg_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
+		
+		JComboBox comboBox_1 = new JComboBox(units);
+		
+		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
+		gl_panel_2.setHorizontalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panel_2.createSequentialGroup()
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.LEADING, gl_panel_2.createSequentialGroup()
+							.addGap(827)
+							.addComponent(pantryAddBtn, GroupLayout.PREFERRED_SIZE, 112, Short.MAX_VALUE))
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+								.addComponent(textField_Ingredient, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
+							.addGap(30)
+							.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblEgLbl, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_panel_2.createSequentialGroup()
+									.addComponent(textField_Quantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)))
+							.addGap(30)
+							.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+								.addComponent(textField_Calories, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblEg, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+							.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblEg_1, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))))
+					.addGap(97))
+		);
+		gl_panel_2.setVerticalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addComponent(textField_Calories, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+							.addGap(6)
+							.addComponent(lblEg, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(comboBox_1)
+								.addComponent(textField_Quantity, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblEgLbl, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_2.createSequentialGroup()
+									.addComponent(textField_Ingredient, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblNewLabel_2)
+									.addGap(14))
+								.addGroup(gl_panel_2.createSequentialGroup()
+									.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+										.addComponent(textField_Price, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_panel_2.createSequentialGroup()
+											.addGap(37)
+											.addComponent(lblEg_1, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)))
+									.addPreferredGap(ComponentPlacement.RELATED)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(pantryAddBtn)))
+					.addContainerGap())
+		);
+		panel_2.setLayout(gl_panel_2);
 		tabBodyPantry.setLayout(gl_tabBodyPantry);
 		
 		JPanel tabBodyRecipe = new JPanel();
@@ -531,25 +712,27 @@ public class Main extends JFrame {
 		tabBodyRecipe.setLayout(gl_tabBodyRecipe);
 		
 		JPanel tabBodyCalendar = new JPanel();
+		//CALENDAR STUFF
+		
 		TAB_BODY.add(tabBodyCalendar, "tabBodyCalendar");
 		
-		JLabel lblCalendar = new JLabel("Calendar");
 		GroupLayout gl_tabBodyCalendar = new GroupLayout(tabBodyCalendar);
 		gl_tabBodyCalendar.setHorizontalGroup(
 			gl_tabBodyCalendar.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_tabBodyCalendar.createSequentialGroup()
-					.addGap(41)
-					.addComponent(lblCalendar)
-					.addContainerGap(917, Short.MAX_VALUE))
+					.addContainerGap()
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 982, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(12, Short.MAX_VALUE))
 		);
 		gl_tabBodyCalendar.setVerticalGroup(
 			gl_tabBodyCalendar.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_tabBodyCalendar.createSequentialGroup()
-					.addGap(42)
-					.addComponent(lblCalendar)
-					.addContainerGap(540, Short.MAX_VALUE))
+					.addContainerGap()
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 576, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		tabBodyCalendar.setLayout(gl_tabBodyCalendar);
+		
 		
 		JPanel tabBodyTools = new JPanel();
 		TAB_BODY.add(tabBodyTools, "tabBodyTools");
@@ -607,17 +790,18 @@ public class Main extends JFrame {
 		lblProfile.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
 		System.out.println(currentProfile);
 		//I added This
-		JLabel lblNewLabel = new JLabel(currentProfile);
+		//here
 		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		lblNewLabel.setText(currentProfile);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblProfile, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 917, Short.MAX_VALUE)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 816, Short.MAX_VALUE)
 					.addComponent(logout, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE))
 		);
 		gl_panel.setVerticalGroup(
