@@ -1,0 +1,5 @@
+select i.name from recipe_to_ingredients n
+ LEFT JOIN recipebook r
+ ON r.recipe_id=n.recipe_id
+ LEFT JOIN pantry i
+ ON n.ingredient_id=i.ingredient_id;
