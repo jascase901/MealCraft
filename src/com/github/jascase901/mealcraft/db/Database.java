@@ -1,22 +1,24 @@
 package com.github.jascase901.mealcraft.db;
 import java.sql.*;
 public abstract class Database{
-    public  int NOT_INPUTED_NUM = -456346364;
-    public String NOT_INPUTED_STR="-456346364"; 
-    protected Connection conn;
-    protected Statement stat;
-    public Database() throws Exception{
-	Class.forName("org.sqlite.JDBC");
-	 conn =
-	     DriverManager.getConnection("jdbc:sqlite:MealCraft.db");
-	 stat = conn.createStatement();
-    }
-    public void removeNulls(String cat, String dbname) throws Exception{
-    	String sql = "Delete "+ dbname+"where "+cat+" is NULL;";
-    	stat.executeQuery(sql);
-    	
-    }
-    public void close() throws Exception{
-	conn.close();
-    }
+	public  int NOT_INPUTED_NUM = -456346364;
+	public String NOT_INPUTED_STR="-456346364"; 
+	protected Connection conn;
+	protected Statement stat;
+	public Database() throws Exception{
+		Class.forName("org.sqlite.JDBC");
+		conn =
+				DriverManager.getConnection("jdbc:sqlite:MealCraft.db");
+		stat = conn.createStatement();
+	}
+	public void removeKey(String cat, String dbname, String rm_condition) throws Exception{
+		String sql = "Delete FROM "+ dbname+" WHERE "+cat+" IS"+ rm_condition+";";
+		//String sql ="Delete FROM pantry WHERE name IS NULL;";
+		stat.execute(sql);
+
+	}
+	public void close() throws Exception{
+
+		conn.close();
+	}
 }

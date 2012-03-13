@@ -63,7 +63,7 @@ public class RecipeToIngredientsDb extends Database{
 	public String[] getIngredientsThatRequire( String recipe_name) throws Exception{
 		String[] str = new String[56];
 		int recipe_id= rb.getId(recipe_name);
-		
+
 		String sql = "SELECT pantry.name FROM recipe_to_ingredients LEFT JOIN pantry on recipe_to_ingredients.ingredient_id=pantry.ingredient_id where recipe_to_ingredients.recipe_id="+recipe_id +";";
 
 		ArrayList<String> rsArray = collectArrayListOfSql(recipe_name, sql);
@@ -167,7 +167,7 @@ public class RecipeToIngredientsDb extends Database{
 	
 	//any class that uses this needs to import array list, only works for 1 column
 	private ArrayList<String> rsToArrayList(ResultSet rs) throws Exception{
-		//removeNulls("name", "pantry");
+	
 		ArrayList<String> str = new ArrayList<String>();
 		while(rs.next()){
 			str.add(rs.getString(1));

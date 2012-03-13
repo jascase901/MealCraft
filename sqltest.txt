@@ -1,2 +1,2 @@
-DELETE pantry
+DELETE from pantry
 WHERE name IS NULL;
