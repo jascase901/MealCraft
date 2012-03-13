@@ -31,6 +31,7 @@ import javax.swing.JPanel;
  * stretches to fit the area the component must occupy.  It provides action events for clicks and
  * cell changes.  It is intended to be used in more complex components to provide date selection, or
  * presentation capability. */
+@SuppressWarnings("serial")
 public class JCalendar extends JPanel {
     /** This action event name indicates that the cursor has moved between date cells
      * within the calendar. */
@@ -42,7 +43,7 @@ public class JCalendar extends JPanel {
     /** This class reduced Java's Date class into a simpler format for comparison purposes
      * I effectively strips time out of the date and compares the simple text representation,
      * but can return a Date object if necessary. */
-    public static class BasicDate implements Serializable {
+	public static class BasicDate implements Serializable {
         private SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         private String textDate;
         public BasicDate(Date date) { textDate = format.format(date == null ? new Date(0) : date); }

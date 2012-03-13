@@ -1,9 +1,9 @@
 package com.github.jascase901.mealcraft.gui;
-import com.github.jascase901.*;
 import com.github.jascase901.mealcraft.db.IngredientDb;
 import com.github.jascase901.mealcraft.db.ProfileDb;
 import com.github.jascase901.mealcraft.db.RecipeBookDb;
 import com.github.jascase901.mealcraft.db.RecipeToIngredientsDb;
+import com.github.jascase901.mealcraft.system.Ingredient;
 import com.github.jascase901.mealcraft.usr.Profile;
 
 import java.awt.EventQueue;
@@ -27,7 +27,6 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JList;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
@@ -36,21 +35,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.Box;
-import javax.swing.JTextArea;
-import javax.swing.JDesktopPane;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 
 public class Main extends JFrame {
 
@@ -62,7 +49,6 @@ public class Main extends JFrame {
 	private String currentProfile = "";
 	private JLabel lblProfile;
 	private JTable pantryTable;
-	private int counter;
 	private JTable recipeBookTable;
 	private JLabel lblNewLabel = new JLabel();
 	private JButton nextButton = new JButton("Create my Profile!");
@@ -77,6 +63,7 @@ public class Main extends JFrame {
 	private JTextField textField_Calories;
 	private JTextField textField_Price;
 	private IngredientDb ingr;
+	private JComboBox comboBox_1;
 
 	/**
 	 * Launch the application.
@@ -136,6 +123,7 @@ public class Main extends JFrame {
 		JButton btnNewButton_1 = new JButton("Choose Profile...");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				redoPrSelect();
 				comboBox.revalidate();
 				comboBox.validate();
 				comboBox.repaint();
@@ -289,6 +277,8 @@ public class Main extends JFrame {
 		
 		JLabel lblSelectProfile = new JLabel("Select Profile...");
 		lblSelectProfile.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
+		redoPrSelect();
+		/*
 	try{
 		ProfileDb myProfileDb = new ProfileDb();
 		profiles = myProfileDb.toStringArray();
@@ -315,6 +305,9 @@ public class Main extends JFrame {
 	
 		comboBox.setModel(model);
 		comboBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+		
+		*/
+		
 		nextButton2.setEnabled(false);
 		
 		
@@ -422,35 +415,39 @@ public class Main extends JFrame {
 		
 		JPanel tabBodyPantry = new JPanel();
 		TAB_BODY.add(tabBodyPantry, "tabBodyPantry");
-		
-		pantryTable = new JTable(50, 4);
-		pantryTable.setEnabled(false);
-		// I AM ADDING THIS
-		try { 
-			IngredientDb myIngredientDb= new IngredientDb();
-			int count  = myIngredientDb.count();
+		redoPTable();
+	/*	
+		public void redoPTable(){
+			pantryTable = new JTable(50, 4);
+			pantryTable.setEnabled(false);
+			// I AM ADDING THIS
+			try { 
+				IngredientDb myIngredientDb= new IngredientDb();
+				int count  = myIngredientDb.count();
 			
 			
-		String[] names=myIngredientDb.namesArray();
-		String[] amounts= myIngredientDb.amountsArray();
-		String[] calories=myIngredientDb.caloriesArray();
-		String[] units=myIngredientDb.unitsArray();
-		String[] prices=myIngredientDb.pricesArray();
-		for(int i=0;i<count;i++){
-			pantryTable.setValueAt(names[i], i,0);
-
-			pantryTable.setValueAt(amounts[i]+" "+units[i],i,1);
-
-			pantryTable.setValueAt(calories[i],i,2);
+				String[] names=myIngredientDb.namesArray();
+				String[] amounts= myIngredientDb.amountsArray();
+				String[] calories=myIngredientDb.caloriesArray();
+				String[] units=myIngredientDb.unitsArray();
+				String[] prices=myIngredientDb.pricesArray();
+				for(int i=0;i<count;i++){
+					pantryTable.setValueAt(names[i], i,0);
+					
+					pantryTable.setValueAt(amounts[i]+" "+units[i],i,1);
+					
+					pantryTable.setValueAt(calories[i],i,2);
 			
-			pantryTable.setValueAt("$ "+prices[i], i, 3);
+					pantryTable.setValueAt("$ "+prices[i], i, 3);
+				}	
+				myIngredientDb.close();
+			}
+			catch(Exception ect){
+					
+			}
+			scrollPane.setViewportView(pantryTable);
 		}
-		myIngredientDb.close();
-		}
-		catch(Exception ect){
-		
-		}
-		
+		*/
 		JLabel lblNewLabel_1 = new JLabel("Ingredients\r\n");
 		lblNewLabel_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		
@@ -462,7 +459,6 @@ public class Main extends JFrame {
 		
 		JLabel lblPrice = new JLabel("Price\r\n");
 		lblPrice.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		scrollPane.setViewportView(pantryTable);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -513,11 +509,18 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					ingr = new IngredientDb();
-					//Ingredient ingredient = new Ingredient(textField_Ingredient.getText(),)
-					//ingr.addIngredient();
+					Ingredient ingredient = new Ingredient(textField_Ingredient.getText(),Integer.parseInt(textField_Calories.getText()),Double.parseDouble(textField_Price.getText()));
+					ingr.addIngredient(ingredient, Double.parseDouble(textField_Quantity.getText()),(String)comboBox_1.getSelectedItem());
+					ingr.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				redoPTable();
+				pantryTable.revalidate();
+				pantryTable.repaint();
+				scrollPane.setViewportView(pantryTable);
+				scrollPane.revalidate();
+				scrollPane.repaint();
 				
 			}
 		});
@@ -547,7 +550,7 @@ public class Main extends JFrame {
 		JLabel lblEg_1 = new JLabel("eg) 19.99");
 		lblEg_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
 		
-		JComboBox comboBox_1 = new JComboBox(units);
+		comboBox_1 = new JComboBox(units);
 		
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
@@ -894,6 +897,66 @@ public class Main extends JFrame {
 		);
 		tabSelection.setLayout(gl_tabSelection);
 		mainMenu.setLayout(gl_mainMenu);
+	}
+	
+	public void redoPrSelect(){
+		try{
+			ProfileDb myProfileDb = new ProfileDb();
+			profiles = myProfileDb.toStringArray();
+			System.out.println("YAY");
+		}
+		catch(Exception a){
+			a.printStackTrace();
+			System.out.println("GAH");
+			
+		}
+			//WE ADDDED THIS
+		
+		DefaultComboBoxModel model = new DefaultComboBoxModel(profiles);
+			comboBox.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if((String)comboBox.getSelectedItem() != "" && (String)comboBox.getSelectedItem() != null){
+						nextButton2.setEnabled(true);
+					}
+					if((String)comboBox.getSelectedItem() == "" || (String)comboBox.getSelectedItem() == null){
+						nextButton2.setEnabled(false);
+					}
+				}
+			});
+		
+			comboBox.setModel(model);
+			comboBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+	}
+	
+	public void redoPTable(){
+		pantryTable = new JTable(50, 4);
+		pantryTable.setEnabled(false);
+		// I AM ADDING THIS
+		try { 
+			IngredientDb myIngredientDb= new IngredientDb();
+			int count  = myIngredientDb.count();
+		
+		
+			String[] names=myIngredientDb.namesArray();
+			String[] amounts= myIngredientDb.amountsArray();
+			String[] calories=myIngredientDb.caloriesArray();
+			String[] units=myIngredientDb.unitsArray();
+			String[] prices=myIngredientDb.pricesArray();
+			for(int i=0;i<count;i++){
+				pantryTable.setValueAt(names[i], i,0);
+				
+				pantryTable.setValueAt(amounts[i]+" "+units[i],i,1);
+				
+				pantryTable.setValueAt(calories[i],i,2);
+		
+				pantryTable.setValueAt("$ "+prices[i], i, 3);
+			}	
+			myIngredientDb.close();
+		}
+		catch(Exception ect){
+				
+		}
+		scrollPane.setViewportView(pantryTable);
 	}
 }
 

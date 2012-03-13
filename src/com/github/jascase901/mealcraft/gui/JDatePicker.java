@@ -29,6 +29,7 @@ import javax.swing.event.ChangeListener;
 /** Provides some surrounding UI to the JCalendar to allow the month and year to be changed, as well
  * as selecting the date.  It also provides an internal date change tracking to show a feedback background
  * color indicating the date has change, or to be queried by other containers. */
+@SuppressWarnings("serial")
 public class JDatePicker extends JPanel {
     /** Number of days in each month.  Used to adjust the day of the month near the boundary dates when
      * switching the selected month. */ 

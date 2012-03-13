@@ -42,6 +42,7 @@ import javax.swing.plaf.basic.BasicArrowButton;
  * the input field, or selected from a combo popup which provides a GUI calendar date
  * picker.  The text date parsing is unique in that numerous date formats can be handled by the
  * text date parser. */
+@SuppressWarnings("serial")
 public class JDateChooser extends JPanel {
     /** Stores the last date formatter that successfully parsed a date */
     protected static DateFormat lastDateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -137,7 +138,7 @@ public class JDateChooser extends JPanel {
     }
     
     // UI FUNCTIONALITY    
-    private Action onComboButtonClick = new AbstractAction() {
+	private Action onComboButtonClick = new AbstractAction() {
         public void actionPerformed(ActionEvent e) {
             if (datePickerVisible == false) {
                 showDatePicker();
@@ -147,7 +148,7 @@ public class JDateChooser extends JPanel {
         }
     };
 
-    private Action onSelectDate = new AbstractAction() {
+	private Action onSelectDate = new AbstractAction() {
         public void actionPerformed(ActionEvent e) {
             Date date = datePicker.getDate();
             dateField.setText(currentDateFormat.format(date));
@@ -399,7 +400,8 @@ public class JDateChooser extends JPanel {
      * can be automatically closed if an event occurs outside of it.
      * @param source source component
      * @return true is source component is a descendent of the JDateChooser */
-    private static boolean isInPopup(Component source) {
+    @SuppressWarnings("unused")
+	private static boolean isInPopup(Component source) {
         for (Component component = source; component != null; component = component.getParent()) {
             if (component instanceof Applet || component instanceof Window) {
                 break;
