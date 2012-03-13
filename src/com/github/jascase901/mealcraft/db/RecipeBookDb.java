@@ -1,5 +1,6 @@
 package com.github.jascase901.mealcraft.db;
 import java.sql.*;
+import java.util.ArrayList;
 
 import com.github.jascase901.mealcraft.system.Recipe;
 public class RecipeBookDb extends Database implements Indexable{
@@ -53,16 +54,17 @@ public class RecipeBookDb extends Database implements Indexable{
 		return id;
 	}
 	public String[] catArray(String category) throws Exception{
+		ArrayList<String> aList = new ArrayList<String>();
 		ResultSet rs = stat.executeQuery("select * from recipebook;");
-		String [] strArray= new String[50];
-		int i=0;
+		
 		while(rs.next()){
 
-			strArray[i]=rs.getString(category);
-			i++;
+			aList.add(rs.getString(category));
+		
 
 		}
-		return strArray;
+		
+		return (String[]) aList.toArray();
 	}
 
 	private Recipe getRecipe(String name) throws Exception{
