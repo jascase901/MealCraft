@@ -3,7 +3,7 @@ import java.sql.*;
 
 import com.github.jascase901.mealcraft.system.Quantity;
 import com.github.jascase901.mealcraft.system.Ingredient;
-public class IngredientDb extends Database{
+public class IngredientDb extends Database implements Indexable{
    
     /**
        no-arg constructor, opens a database connection creates a pantry table

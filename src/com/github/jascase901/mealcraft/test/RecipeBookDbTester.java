@@ -7,12 +7,16 @@ import junit.framework.*;
 public class RecipeBookDbTester extends TestCase{
     RecipeBookDb myRecipeBook;
     Recipe baconStew;
+    Recipe hotdog;
 
 protected void setUp() throws Exception { 
   	// put common setup code in
 	myRecipeBook = new RecipeBookDb();
 	baconStew = new Recipe("bacon stew", "brown bacon", "not kosher");
 	myRecipeBook.addRecipe(baconStew);
+	hotdog =new Recipe("bacon hotdog", "cook hotdog, brown bacon, wrap hotdog in bacon", "totally kosher");
+	myRecipeBook.addRecipe(hotdog);
+	
  
   }
    

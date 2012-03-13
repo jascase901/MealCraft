@@ -40,8 +40,8 @@ public class IngredientDbTester extends TestCase{
 	ingr.close();
   }
     public void testAdd4() throws Exception {
-	Ingredient beer = new Ingredient("beer", 54, 54.0);
 	
+	Ingredient beer = new Ingredient("beer", 54, 54.0);
 	ingr.addIngredient(beer, 1, "liter");
 	double amount = ingr.getQuantity("beer").getAmount();
 	assertEquals(1.0, amount);
