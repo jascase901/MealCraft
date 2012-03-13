@@ -20,27 +20,27 @@ public class RecipeToIngredientsDb extends Database{
 		if  (getQuantity(recipe_name, ingredient_name) ==-42){
 			int ingredient_id = ingr.getId(ingredient_name);
 			int recipe_id =rb.getId(recipe_name); 
-			
+
 			if (ingredient_id == -42){
 				Ingredient ingredient = new Ingredient();
 				ingr.addIngredient(ingredient, 0, units);
 				ingredient_id = ingr.getId(ingredient_name);
 			}
-					
+
 			PreparedStatement prep = conn.prepareStatement(
 					"insert into recipe_to_ingredients  values (?, ?, ?,?);");
 			//checks if ingredient is in db
 			//if (!isUnique(recipe_id, ingredient_id)){
-				prep.setInt(1,recipe_id);
-				prep.setInt(2,ingredient_id);
-				prep.setDouble(3, quantity);
-				prep.setString(4, units);
-				prep.addBatch();
+			prep.setInt(1,recipe_id);
+			prep.setInt(2,ingredient_id);
+			prep.setDouble(3, quantity);
+			prep.setString(4, units);
+			prep.addBatch();
 
-				conn.setAutoCommit(false);
-				prep.executeBatch();
-				conn.setAutoCommit(true);
-			}
+			conn.setAutoCommit(false);
+			prep.executeBatch();
+			conn.setAutoCommit(true);
+		}
 
 
 		//}
@@ -49,18 +49,14 @@ public class RecipeToIngredientsDb extends Database{
 
 	//sql query that gets the quantity for how many ingredients are required for recipe
 	public String[] getRecipesThatRequire( String ingredient_name) throws Exception{
-		String[] str = new String[56];
+
 		int ingredient_id = rb.getId(ingredient_name); 
 		String sql ="SELECT recipebook.name FROM recipe_to_ingredients LEFT JOIN recipebook on recipe_to_ingredients.recipe_id=recipebook.recipe_id where recipe_to_ingredients.ingredient_id="+ingredient_id+";";
 
-
-
-		
 		ArrayList<String> rsArray = collectArrayListOfSql(ingredient_name, sql);
-		str=rsArray.toArray(str);
-	
 
-		return str;
+
+		return (String[]) rsArray.toArray(new String[rsArray.size()]);
 
 
 
@@ -70,16 +66,14 @@ public class RecipeToIngredientsDb extends Database{
 	}
 	//sql query that gets the quantity for how many ingredients are required for recipe
 	public String[] getIngredientsThatRequire( String recipe_name) throws Exception{
-		String[] str = new String[56];
 		int recipe_id= rb.getId(recipe_name);
 
 		String sql = "SELECT pantry.name FROM recipe_to_ingredients LEFT JOIN pantry on recipe_to_ingredients.ingredient_id=pantry.ingredient_id where recipe_to_ingredients.recipe_id="+recipe_id +";";
 
 		ArrayList<String> rsArray = collectArrayListOfSql(recipe_name, sql);
-		str=rsArray.toArray(str);
-	
 
-		return str;
+
+		return (String[]) rsArray.toArray(new String[rsArray.size()]);
 
 
 
@@ -106,9 +100,9 @@ public class RecipeToIngredientsDb extends Database{
 
 		return quantity;
 	}
-	
 
-	
+
+
 
 
 
@@ -128,27 +122,26 @@ public class RecipeToIngredientsDb extends Database{
 
 		return units;
 	}
-/*
- * prints all the ingredients in a single recipe
- */
+	/*
+	 * prints all the ingredients in a single recipe
+	 */
 	public String[]  getIngredients( String recipe_name) throws Exception{
 		int recipe_id = rb.getId(recipe_name);
-
-		String[] str= new String[50];
-		int i=0;
+		ArrayList<String> rsArray = new ArrayList<String>();
+		
 		ResultSet rs = stat.executeQuery("SELECT ingredient_id "   
 				+"FROM " 
 				+"recipe_to_ingredients "
 				+"WHERE "+recipe_id+ "=recipe_to_ingredients.recipe_id");
 		while(rs.next()){
-			str[i]=rs.getString(1);
+			rsArray.add(rs.getString(1));
 		}
 		//System.out.println(units);
 		rs.close();
 
-		return str;
+		return (String[]) rsArray.toArray(new String[rsArray.size()]);
 	}
-	
+
 	public String[] catArray(String category) throws Exception{
 		ResultSet rs = stat.executeQuery("select * from recipe_to_ingredients;");
 		String [] strArray= new String[50];
@@ -173,10 +166,10 @@ public class RecipeToIngredientsDb extends Database{
 
 		return rsArray;
 	}
-	
+
 	//any class that uses this needs to import array list, only works for 1 column
 	private ArrayList<String> rsToArrayList(ResultSet rs) throws Exception{
-	
+
 		ArrayList<String> str = new ArrayList<String>();
 		while(rs.next()){
 			str.add(rs.getString(1));

@@ -64,7 +64,7 @@ public class RecipeBookDb extends Database implements Indexable{
 
 		}
 		
-		return (String[]) aList.toArray();
+		return (String[]) aList.toArray(new String[aList.size()]);
 	}
 
 	private Recipe getRecipe(String name) throws Exception{
