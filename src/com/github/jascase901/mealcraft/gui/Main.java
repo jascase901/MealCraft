@@ -1034,6 +1034,8 @@ public class Main extends JFrame {
 	public void redoPTable(){
 		pantryTable = new JTable(50, 4);
 		pantryTable.setEnabled(false);
+		pantryTable.setShowGrid(false);
+
 		// I AM ADDING THIS
 		try { 
 			IngredientDb myIngredientDb= new IngredientDb();
@@ -1050,6 +1052,8 @@ public class Main extends JFrame {
 				pantryTable.setValueAt(amounts[i]+" "+units[i],i,1);
 				pantryTable.setValueAt(calories[i],i,2);
 				pantryTable.setValueAt("$ "+prices[i], i, 3);
+				pantryTable.setShowGrid(false);
+
 			}	
 			myIngredientDb.close();
 		}
@@ -1082,6 +1086,8 @@ public class Main extends JFrame {
 	public void redoRecipeIngrTable(String recipeSelected){
 		recipeIngr = new JTable(50,3);
 		recipeIngr.setEnabled(false);
+		recipeIngr.setShowGrid(false);
+
 		recipeInstructions = new JTextArea("stuff");
 		recipeInstructions.setEnabled(true);
 
@@ -1099,8 +1105,12 @@ public class Main extends JFrame {
 					recipeIngr.setValueAt(each, i,0);
 					recipeIngr.setValueAt(recipe_relation.getQuantity(recipeSelected, each)+" "+recipe_relation.getUnits(recipeSelected, each), i, 1);
 					recipeIngr.setValueAt("$"+ingr.getPrice(each), i, 2);
+					recipeIngr.setShowGrid(false);
+
 					recipeInstructions = new JTextArea(recipebookDb.getSteps(recipeSelected));
 					recipeInstructions.setEnabled(true);
+					recipeInstructions.setEditable(false);
+
 					i++;
 
 
@@ -1135,6 +1145,8 @@ public class Main extends JFrame {
 					recipeIngr.setValueAt("", 0, 2);
 					recipeInstructions = new JTextArea("");
 					recipeInstructions.setEnabled(true);
+					recipeIngr.setShowGrid(false);
+
 
 
 				
