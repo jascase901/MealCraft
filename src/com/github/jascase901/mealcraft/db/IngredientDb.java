@@ -11,6 +11,7 @@ public class IngredientDb extends Database implements Indexable{
 	public IngredientDb() throws Exception{
 		super();
 		//stat.executeUpdate("drop table  if exists pantry;");
+		
 		stat.executeUpdate("create table  if not exists  pantry (ingredient_id  integer primary key , name unique, calories, price, amount, units);");
 
 	}
@@ -184,7 +185,7 @@ public class IngredientDb extends Database implements Indexable{
 	 */
 	public String[] namesArray() throws Exception{
 		ResultSet rs = stat.executeQuery("select * from pantry;");
-		String [] strArray= new String[50];
+		String [] strArray= new String[300];
 		int i=0;
 		while(rs.next()){
 
@@ -262,7 +263,7 @@ public class IngredientDb extends Database implements Indexable{
 	}
 	public String[] catArray(String category) throws Exception{
 		ResultSet rs = stat.executeQuery("select * from pantry;");
-		String [] strArray= new String[50];
+		String [] strArray= new String[3000];
 		int i=0;
 		while(rs.next()){
 

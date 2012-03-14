@@ -9,6 +9,8 @@ public class RecipeToIngredientsDb extends Database{
 	RecipeBookDb rb = new RecipeBookDb();
 	public RecipeToIngredientsDb() throws Exception{
 		super();
+		Statement stat;
+		stat = conn.createStatement();
 		stat.executeUpdate("create table  if not exists recipe_to_ingredients (recipe_id, ingredient_id, ingredient_quantity, units);"); 
 	}
 
@@ -144,15 +146,15 @@ public class RecipeToIngredientsDb extends Database{
 
 	public String[] catArray(String category) throws Exception{
 		ResultSet rs = stat.executeQuery("select * from recipe_to_ingredients;");
-		String [] strArray= new String[50];
-		int i=0;
+		ArrayList<String> rsArray = new ArrayList<String>();
+
 		while(rs.next()){
 
-			strArray[i]=rs.getString(category);
-			i++;
+			rsArray.add(rs.getString(category));
+			
 
 		}
-		return strArray;
+		return (String[]) rsArray.toArray(new String[rsArray.size()]);
 	}
 	/*
 	 * @param name: the name of the recipe, or ingredient you wish to use as an index

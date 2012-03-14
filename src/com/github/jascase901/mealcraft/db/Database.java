@@ -6,6 +6,7 @@ public abstract class Database{
 	protected Connection conn;
 	protected Statement stat;
 	public Database() throws Exception{
+
 		Class.forName("org.sqlite.JDBC");
 		conn =
 				DriverManager.getConnection("jdbc:sqlite:MealCraft.db");
@@ -19,7 +20,11 @@ public abstract class Database{
 
 	}
 	public void close() throws Exception{
-
-		conn.close();
+		if (conn!=null && !conn.isClosed()){
+			conn.close();
+		stat.close();
+	}
+		else
+			System.out.print("DATABASE ALREADY CLOSED");
 	}
 }

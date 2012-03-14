@@ -1,9 +1,11 @@
 package com.github.jascase901.mealcraft.gui;
+import com.github.jascase901.mealcraft.db.Database;
 import com.github.jascase901.mealcraft.db.IngredientDb;
 import com.github.jascase901.mealcraft.db.ProfileDb;
 import com.github.jascase901.mealcraft.db.RecipeBookDb;
 import com.github.jascase901.mealcraft.db.RecipeToIngredientsDb;
 import com.github.jascase901.mealcraft.system.Ingredient;
+import com.github.jascase901.mealcraft.system.Recipe;
 import com.github.jascase901.mealcraft.usr.Profile;
 
 import java.awt.EventQueue;
@@ -56,6 +58,7 @@ public class Main extends JFrame {
 	private String inputProfileName = "";
 	private String inputPantryName = "";
 	private String currentProfile = "";
+	private String newRecipe = "";
 	private JLabel lblProfile;
 	private JTable pantryTable;
 	private JLabel lblNewLabel = new JLabel();
@@ -86,6 +89,14 @@ public class Main extends JFrame {
 	private JPanel tabBodyRecipe;
 	private JPanel recipeSwitch;
 	private JPanel recipeView;
+	private JButton removeRcp;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField newRcpName;
+	private JButton makeRcp;
+	private JLabel lblNewLabel_6;
 
 	/**
 	 * Launch the application.
@@ -156,23 +167,23 @@ public class Main extends JFrame {
 		btnNewButton_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
 		GroupLayout gl_profile = new GroupLayout(profile);
 		gl_profile.setHorizontalGroup(
-				gl_profile.createParallelGroup(Alignment.LEADING)
+			gl_profile.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_profile.createSequentialGroup()
-						.addGap(366)
-						.addGroup(gl_profile.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnNewButton_1, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 493, GroupLayout.PREFERRED_SIZE))
-								.addContainerGap(365, Short.MAX_VALUE))
-				);
+					.addGap(366)
+					.addGroup(gl_profile.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnNewButton_1, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 493, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(161, Short.MAX_VALUE))
+		);
 		gl_profile.setVerticalGroup(
-				gl_profile.createParallelGroup(Alignment.LEADING)
+			gl_profile.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_profile.createSequentialGroup()
-						.addGap(273)
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-						.addGap(27)
-						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(273, Short.MAX_VALUE))
-				);
+					.addGap(273)
+					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+					.addGap(27)
+					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(283, Short.MAX_VALUE))
+		);
 		profile.setLayout(gl_profile);
 
 		JPanel newProfile = new JPanel();
@@ -300,35 +311,6 @@ public class Main extends JFrame {
 		JLabel lblSelectProfile = new JLabel("Select Profile...");
 		lblSelectProfile.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
 		redoPrSelect();
-		/*
-	try{
-		ProfileDb myProfileDb = new ProfileDb();
-		profiles = myProfileDb.toStringArray();
-		System.out.println("YAY");
-	}
-	catch(Exception a){
-		a.printStackTrace();
-		System.out.println("GAH");
-
-	}
-		//WE ADDDED THIS
-
-	DefaultComboBoxModel model = new DefaultComboBoxModel(profiles);
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if((String)comboBox.getSelectedItem() != "" && (String)comboBox.getSelectedItem() != null){
-					nextButton2.setEnabled(true);
-				}
-				if((String)comboBox.getSelectedItem() == "" || (String)comboBox.getSelectedItem() == null){
-					nextButton2.setEnabled(false);
-				}
-			}
-		});
-
-		comboBox.setModel(model);
-		comboBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-
-		 */
 
 		nextButton2.setEnabled(false);
 
@@ -689,24 +671,19 @@ public class Main extends JFrame {
 
 		recipeSwitch = new JPanel();
 
-		JButton recipeEditBtn = new JButton("New button");
-		recipeEditBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				CardLayout toRecipeEdit = (CardLayout)(recipeSwitch.getLayout());
-				toRecipeEdit.show(recipeSwitch, "recipeEdit");
-			}
-		});
-
 		JButton addRcp = new JButton("+");
 		addRcp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//THIS IS JASONS SPOT, IT IS A GOOD SPOT
+				CardLayout toRecipeEdit = (CardLayout)(recipeSwitch.getLayout());
+				toRecipeEdit.show(recipeSwitch, "recipeNameInput");
 			}
 		});
 		addRcp.setPreferredSize(new Dimension(37, 23));
 		addRcp.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
 
-		JButton removeRcp = new JButton("-");
+		removeRcp = new JButton("-");
+		removeRcp.setEnabled(false);
 		removeRcp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -720,6 +697,7 @@ public class Main extends JFrame {
 					e1.printStackTrace();
 				}
 				redoRList();
+				removeRcp.setEnabled(false);
 				if (listORecipe.getSelectedValue()==null){
 					redoRecipeIngrTable();
 					System.out.println("worked");
@@ -731,45 +709,39 @@ public class Main extends JFrame {
 
 		GroupLayout gl_tabBodyRecipe = new GroupLayout(tabBodyRecipe);
 		gl_tabBodyRecipe.setHorizontalGroup(
-				gl_tabBodyRecipe.createParallelGroup(Alignment.LEADING)
+			gl_tabBodyRecipe.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_tabBodyRecipe.createSequentialGroup()
-						.addGroup(gl_tabBodyRecipe.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_tabBodyRecipe.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(gl_tabBodyRecipe.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_tabBodyRecipe.createSequentialGroup()
-														.addComponent(lblRecipes, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(ComponentPlacement.RELATED)
-														.addComponent(recipeEditBtn))
-														.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE))
-														.addPreferredGap(ComponentPlacement.RELATED))
-														.addGroup(Alignment.TRAILING, gl_tabBodyRecipe.createSequentialGroup()
-																.addContainerGap()
-																.addComponent(addRcp, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-																.addGap(27)
-																.addComponent(removeRcp, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-																.addGap(33)))
-																.addComponent(recipeSwitch, GroupLayout.PREFERRED_SIZE, 711, GroupLayout.PREFERRED_SIZE)
-																.addContainerGap(10, Short.MAX_VALUE))
-				);
+					.addContainerGap()
+					.addGroup(gl_tabBodyRecipe.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_tabBodyRecipe.createSequentialGroup()
+							.addGroup(gl_tabBodyRecipe.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblRecipes, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)
+								.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED))
+						.addGroup(gl_tabBodyRecipe.createSequentialGroup()
+							.addComponent(addRcp, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+							.addGap(27)
+							.addComponent(removeRcp, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+							.addGap(33)))
+					.addComponent(recipeSwitch, GroupLayout.PREFERRED_SIZE, 711, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(10, Short.MAX_VALUE))
+		);
 		gl_tabBodyRecipe.setVerticalGroup(
-				gl_tabBodyRecipe.createParallelGroup(Alignment.LEADING)
+			gl_tabBodyRecipe.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_tabBodyRecipe.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_tabBodyRecipe.createParallelGroup(Alignment.LEADING)
-								.addComponent(recipeSwitch, GroupLayout.PREFERRED_SIZE, 575, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_tabBodyRecipe.createSequentialGroup()
-										.addGroup(gl_tabBodyRecipe.createParallelGroup(Alignment.BASELINE)
-												.addComponent(lblRecipes, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-												.addComponent(recipeEditBtn))
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 470, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addGroup(gl_tabBodyRecipe.createParallelGroup(Alignment.BASELINE)
-														.addComponent(removeRcp, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-														.addComponent(addRcp, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))))
-														.addContainerGap())
-				);
+					.addContainerGap()
+					.addGroup(gl_tabBodyRecipe.createParallelGroup(Alignment.LEADING)
+						.addComponent(recipeSwitch, GroupLayout.PREFERRED_SIZE, 575, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_tabBodyRecipe.createSequentialGroup()
+							.addComponent(lblRecipes, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 470, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_tabBodyRecipe.createParallelGroup(Alignment.BASELINE)
+								.addComponent(removeRcp, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+								.addComponent(addRcp, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))))
+					.addContainerGap())
+		);
 		recipeSwitch.setLayout(new CardLayout(0, 0));
 
 		recipeView = new JPanel();
@@ -811,9 +783,204 @@ public class Main extends JFrame {
 		JPanel recipeEdit = new JPanel();
 		recipeEdit.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		recipeSwitch.add(recipeEdit, "recipeEdit");
-
-		JLabel lblSomething = new JLabel("something");
-		recipeEdit.add(lblSomething);
+		
+		JLabel lblNewLabel_2 = new JLabel("Recipe Name:");
+		lblNewLabel_2.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		
+		JLabel lblNewLabel_3 = new JLabel("Ingredients:");
+		lblNewLabel_3.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		
+		JComboBox comboBox_2 = new JComboBox();
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+			}
+		});
+		
+		JButton btnNewButton_3 = new JButton("New button");
+		
+		JLabel lblNewLabel_4 = new JLabel("Instructions:");
+		lblNewLabel_4.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
+		
+		JScrollPane scrollPane_5 = new JScrollPane();
+		
+		lblNewLabel_6 = new JLabel("");
+		lblNewLabel_6.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+		GroupLayout gl_recipeEdit = new GroupLayout(recipeEdit);
+		gl_recipeEdit.setHorizontalGroup(
+			gl_recipeEdit.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_recipeEdit.createSequentialGroup()
+					.addGap(20)
+					.addGroup(gl_recipeEdit.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_recipeEdit.createSequentialGroup()
+							.addComponent(scrollPane_5, GroupLayout.PREFERRED_SIZE, 661, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())
+						.addGroup(gl_recipeEdit.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_recipeEdit.createSequentialGroup()
+								.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap())
+							.addGroup(gl_recipeEdit.createSequentialGroup()
+								.addGroup(gl_recipeEdit.createParallelGroup(Alignment.TRAILING)
+									.addGroup(gl_recipeEdit.createSequentialGroup()
+										.addGroup(gl_recipeEdit.createParallelGroup(Alignment.TRAILING)
+											.addComponent(lblNewLabel_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+											.addGroup(Alignment.LEADING, gl_recipeEdit.createSequentialGroup()
+												.addComponent(lblNewLabel_2)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(lblNewLabel_6, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)))
+										.addGap(377))
+									.addGroup(gl_recipeEdit.createSequentialGroup()
+										.addGroup(gl_recipeEdit.createParallelGroup(Alignment.TRAILING)
+											.addComponent(btnNewButton_2)
+											.addGroup(gl_recipeEdit.createSequentialGroup()
+												.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+												.addGap(10)
+												.addComponent(comboBox_2, 0, 106, Short.MAX_VALUE)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+												.addGap(10)
+												.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)))
+										.addGap(17))
+									.addGroup(gl_recipeEdit.createSequentialGroup()
+										.addGroup(gl_recipeEdit.createParallelGroup(Alignment.TRAILING)
+											.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+											.addComponent(scrollPane_4, GroupLayout.PREFERRED_SIZE, 663, GroupLayout.PREFERRED_SIZE))
+										.addPreferredGap(ComponentPlacement.RELATED)))
+								.addGap(80)))))
+		);
+		gl_recipeEdit.setVerticalGroup(
+			gl_recipeEdit.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_recipeEdit.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_recipeEdit.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel_2)
+						.addComponent(lblNewLabel_6, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane_4, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_recipeEdit.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_recipeEdit.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_recipeEdit.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnNewButton_2))
+						.addGroup(gl_recipeEdit.createSequentialGroup()
+							.addGap(30)
+							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(scrollPane_5, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+					.addGap(7)
+					.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		recipeEdit.setLayout(gl_recipeEdit);
+		
+		JPanel recipeNameInput = new JPanel();
+		recipeNameInput.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		recipeSwitch.add(recipeNameInput, "recipeNameInput");
+		
+		JLabel lblNewLabel_5 = new JLabel("Please Enter New Recipe Name:");
+		lblNewLabel_5.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
+		
+		newRcpName = new JTextField();
+		newRcpName.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		newRcpName.setColumns(10);
+		
+		Document textFieldDoc_RcpName = newRcpName.getDocument();
+		textFieldDoc_RcpName.addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updated(e);
+			}
+			public void insertUpdate(DocumentEvent e) {
+				updated(e);
+			}
+			public void removeUpdate(DocumentEvent e) {
+				updated(e);
+			}
+			private void updated(DocumentEvent e) {
+				boolean enable = e.getDocument().getLength() > 0;
+				makeRcp.setEnabled(enable);
+			}
+		});
+		
+		makeRcp = new JButton("Next");
+		makeRcp.setEnabled(false);
+		makeRcp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				newRecipe = newRcpName.getText();
+				CardLayout toRecipeEdit = (CardLayout)(recipeSwitch.getLayout());
+				toRecipeEdit.show(recipeSwitch, "recipeEdit");
+				lblNewLabel_6.setText(newRecipe);
+				//CODES GOES HERE
+				try {
+					RecipeBookDb recipeBook = new RecipeBookDb();
+					Recipe recipe = new Recipe(newRcpName.getText(),"");
+					recipeBook.addRecipe(recipe);
+					recipeBook.close();
+					redoRList();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				newRcpName.setText(null);
+			}
+		});
+		makeRcp.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+		GroupLayout gl_recipeNameInput = new GroupLayout(recipeNameInput);
+		gl_recipeNameInput.setHorizontalGroup(
+			gl_recipeNameInput.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_recipeNameInput.createSequentialGroup()
+					.addContainerGap(217, Short.MAX_VALUE)
+					.addGroup(gl_recipeNameInput.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_recipeNameInput.createSequentialGroup()
+							.addGroup(gl_recipeNameInput.createParallelGroup(Alignment.TRAILING)
+								.addComponent(newRcpName, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_recipeNameInput.createSequentialGroup()
+									.addComponent(lblNewLabel_5)
+									.addGap(21)))
+							.addGap(214))
+						.addGroup(gl_recipeNameInput.createSequentialGroup()
+							.addComponent(makeRcp, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
+							.addGap(301))))
+		);
+		gl_recipeNameInput.setVerticalGroup(
+			gl_recipeNameInput.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_recipeNameInput.createSequentialGroup()
+					.addContainerGap(212, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(newRcpName, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(makeRcp, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+					.addGap(208))
+		);
+		recipeNameInput.setLayout(gl_recipeNameInput);
 
 		tabBodyRecipe.setLayout(gl_tabBodyRecipe);
 
@@ -885,9 +1052,10 @@ public class Main extends JFrame {
 		JButton logout = new JButton("Log out/Switch");
 		logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				CardLayout Plogout = (CardLayout)(TAB_BODY.getLayout());
+				Plogout.show(TAB_BODY, "tabBodyMain");
 				CardLayout logout = (CardLayout)(card.getLayout());
 				logout.show(card, "profile");
-
 			}
 		});
 		logout.setEnabled(true);
@@ -1070,14 +1238,31 @@ public class Main extends JFrame {
 			listORecipe.setSelectionMode(1);
 			listORecipe.addListSelectionListener(new ListSelectionListener() {
 				public void valueChanged(ListSelectionEvent arg0) {
+					if(listORecipe.getSelectedValue() != null){
+						removeRcp.setEnabled(true);
+					}
+					if(listORecipe.getSelectedValue() == null){
+						removeRcp.setEnabled(false);
+					}
 					CardLayout toRecipeView = (CardLayout)(recipeSwitch.getLayout());
 					toRecipeView.show(recipeSwitch, "recipeView");
 
 					redoRecipeIngrTable((String)listORecipe.getSelectedValue());
 					System.out.println(listORecipe.getSelectedValue());
+					
+					Thread.currentThread();
+					try {
+						Thread.sleep(0);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			});
+			
+			recipeDb.close();
 		}
+		
 		catch(Exception e){
 			e.printStackTrace();
 		}
@@ -1093,8 +1278,10 @@ public class Main extends JFrame {
 
 		try{
 			RecipeToIngredientsDb recipe_relation = new RecipeToIngredientsDb();
+			
+			//IngredientDb r = new IngredientDb();
 			String [] ingredients = recipe_relation.getIngredientsThatRequire(recipeSelected);
-			String [] test = recipe_relation.getIngredients(recipeSelected);
+			
 			//ArrayList<String> aUnits= new ArrayList<String>();
 			int i =0;
 			for(String each: ingredients){
@@ -1112,18 +1299,20 @@ public class Main extends JFrame {
 					recipeInstructions.setEditable(false);
 
 					i++;
-
+					recipebookDb.close();
 
 				}
 
 			}
 
+			recipe_relation.close();
+			
 
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
-
+		
 		scrollPane_3.setViewportView(recipeInstructions);
 		scrollPane_2.setViewportView(recipeIngr);
 	}
@@ -1152,7 +1341,6 @@ public class Main extends JFrame {
 				
 
 			
-
 
 		}
 		catch(Exception e){

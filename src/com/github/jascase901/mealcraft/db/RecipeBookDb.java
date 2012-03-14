@@ -9,6 +9,7 @@ public class RecipeBookDb extends Database implements Indexable{
 	 */
 	public RecipeBookDb() throws Exception{
 		super();
+		
 		stat.executeUpdate("create table  if not exists  recipebook (recipe_id  integer primary key , name unique, steps, notes);"); 
 	} 
 
