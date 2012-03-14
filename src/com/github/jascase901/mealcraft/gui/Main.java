@@ -1,5 +1,4 @@
 package com.github.jascase901.mealcraft.gui;
-import com.github.jascase901.mealcraft.db.Database;
 import com.github.jascase901.mealcraft.db.IngredientDb;
 import com.github.jascase901.mealcraft.db.ProfileDb;
 import com.github.jascase901.mealcraft.db.RecipeBookDb;
@@ -43,8 +42,6 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
 import javax.swing.JList;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
