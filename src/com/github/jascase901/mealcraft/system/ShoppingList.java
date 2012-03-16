@@ -2,7 +2,7 @@ package com.github.jascase901.mealcraft.system;
 import java.io.*;
 public class ShoppingList
 {
-	public void exportToFile(String filepath, String text){
+	 public static void exportToFile(String filepath, String text){
 
 		try{
 			// Create file 
@@ -16,7 +16,7 @@ public class ShoppingList
 		}
 
 	}
-	public void exportToFile( String text){
+	public static void exportToFile( String text){
 		exportToFile("shoppinglist.txt", text);
 	}
 }

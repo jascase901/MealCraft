@@ -6,6 +6,7 @@ import com.github.jascase901.mealcraft.db.RecipeToIngredientsDb;
 import com.github.jascase901.mealcraft.system.Ingredient;
 import com.github.jascase901.mealcraft.system.Quantity;
 import com.github.jascase901.mealcraft.system.Recipe;
+import com.github.jascase901.mealcraft.system.ShoppingList;
 import com.github.jascase901.mealcraft.usr.Profile;
 
 import java.awt.EventQueue;
@@ -48,6 +49,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import javax.swing.JEditorPane;
+import javax.swing.JTabbedPane;
 
 public class Main extends JFrame {
 
@@ -108,6 +111,9 @@ public class Main extends JFrame {
 	private JScrollPane scrollPane_5;
 	private JTextArea instruction_input;
 	private JButton btnNewButton_3;
+	private JScrollPane scrollPane_6;
+	private JTextArea shopList;
+	private JTextArea shopListConfirm;
 
 	/**
 	 * Launch the application.
@@ -423,22 +429,41 @@ public class Main extends JFrame {
 		JPanel tabBodyMain = new JPanel();
 		TAB_BODY.add(tabBodyMain, "tabBodyMain");
 
-		JLabel lblMainPage = new JLabel("main page");
+		JLabel lblMainPage = new JLabel("WELCOME TO MEALCRAFT!!!  ");
+		lblMainPage.setFont(new Font("Comic Sans MS", Font.PLAIN, 27));
+		
+		JLabel lblPleaseSelectOne = new JLabel("Please select one of the tabs to your left  if you know what you are doing.\r\n");
+		lblPleaseSelectOne.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		
+		JLabel lblIfYouDont = new JLabel("If you dont  know what you are doing visit our help page");
+		lblIfYouDont.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
 		GroupLayout gl_tabBodyMain = new GroupLayout(tabBodyMain);
 		gl_tabBodyMain.setHorizontalGroup(
-				gl_tabBodyMain.createParallelGroup(Alignment.LEADING)
+			gl_tabBodyMain.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_tabBodyMain.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(lblMainPage)
-						.addContainerGap(566, Short.MAX_VALUE))
-				);
+					.addGap(306)
+					.addComponent(lblMainPage)
+					.addContainerGap(136, Short.MAX_VALUE))
+				.addGroup(gl_tabBodyMain.createSequentialGroup()
+					.addContainerGap(257, Short.MAX_VALUE)
+					.addComponent(lblPleaseSelectOne, GroupLayout.PREFERRED_SIZE, 598, GroupLayout.PREFERRED_SIZE)
+					.addGap(149))
+				.addGroup(gl_tabBodyMain.createSequentialGroup()
+					.addContainerGap(305, Short.MAX_VALUE)
+					.addComponent(lblIfYouDont)
+					.addGap(289))
+		);
 		gl_tabBodyMain.setVerticalGroup(
-				gl_tabBodyMain.createParallelGroup(Alignment.LEADING)
+			gl_tabBodyMain.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_tabBodyMain.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(lblMainPage)
-						.addContainerGap(571, Short.MAX_VALUE))
-				);
+					.addGap(20)
+					.addComponent(lblMainPage, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
+					.addGap(116)
+					.addComponent(lblPleaseSelectOne, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
+					.addComponent(lblIfYouDont)
+					.addGap(27))
+		);
 		tabBodyMain.setLayout(gl_tabBodyMain);
 
 		JPanel tabBodyPantry = new JPanel();
@@ -1126,35 +1151,91 @@ public class Main extends JFrame {
 
 		JPanel tabBodyTools = new JPanel();
 		TAB_BODY.add(tabBodyTools, "tabBodyTools");
-
-		JLabel lblTools = new JLabel("Tools");
+		
+		JLabel lblNewLabel_7 = new JLabel("HOW TO USE:");
+		lblNewLabel_7.setFont(new Font("Comic Sans MS", Font.BOLD, 19));
+		
+		JTabbedPane helpTab = new JTabbedPane(JTabbedPane.TOP);
+		
+		
 		GroupLayout gl_tabBodyTools = new GroupLayout(tabBodyTools);
 		gl_tabBodyTools.setHorizontalGroup(
-				gl_tabBodyTools.createParallelGroup(Alignment.LEADING)
+			gl_tabBodyTools.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_tabBodyTools.createSequentialGroup()
-						.addGap(40)
-						.addComponent(lblTools)
-						.addContainerGap(918, Short.MAX_VALUE))
-				);
+					.addContainerGap()
+					.addGroup(gl_tabBodyTools.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_7, GroupLayout.PREFERRED_SIZE, 982, GroupLayout.PREFERRED_SIZE)
+						.addComponent(helpTab, GroupLayout.PREFERRED_SIZE, 984, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
 		gl_tabBodyTools.setVerticalGroup(
-				gl_tabBodyTools.createParallelGroup(Alignment.LEADING)
+			gl_tabBodyTools.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_tabBodyTools.createSequentialGroup()
-						.addGap(35)
-						.addComponent(lblTools)
-						.addContainerGap(547, Short.MAX_VALUE))
-				);
+					.addContainerGap()
+					.addComponent(lblNewLabel_7, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(helpTab, GroupLayout.PREFERRED_SIZE, 512, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		
+		JTextArea txtrClickThePantry = new JTextArea();
+		txtrClickThePantry.setText("click the Pantry button on the upper left tab.\r\n\r\nTo add an ingredient:\r\ntype in your ingredients name, quantity, calories, and price in the forms on the bottom of the page. Press Add button.\r\n\r\nTo remove an ingredient:\r\nType in its name in the form at the bottom. Press  the Remove button.");
+		helpTab.addTab("PANTRY", null, txtrClickThePantry, null);
+		
+		JTextArea textClickRecipe = new JTextArea();
+		textClickRecipe.setText("Click on Recipe button on the upper left of the screen\r\n\r\nTo add recipes:\r\n1)click on the plus button\r\n2)enter recipename in the form\r\n3)Type in name, quanity, units, and price as you would for add ingredient.\r\n4)Click on add ingredient\r\n5)click on the instructions form, and type in your instructions\r\n6)Hit done\r\n\r\nTo remove:\r\nSelect the recipe that you want to remove\r\nHit minus");
+		helpTab.addTab("RECIPE", null, textClickRecipe, null);
+		
+		JTextArea CalendarHelp = new JTextArea();
+		CalendarHelp.setText("Click on calendar button on the middle of the left plane\r\n\r\nJust a simple calendar that displays dates and help you plan meals.");
+		helpTab.addTab("CALENDAR", null, CalendarHelp, null);
+		
+		JTextArea ShoppingHelp = new JTextArea();
+		ShoppingHelp.setText("Click on shoping list at the bottom of the left pane\r\n\r\nTo export:\r\ntype in your shopping list\r\nhit export\r\n\r\nTo view Shopping list:\r\nGo into your MealCraft directory, and open shoppinglist.txt with notepad\r\n");
+		helpTab.addTab("SHOPPING LIST", null, ShoppingHelp, null);
 		tabBodyTools.setLayout(gl_tabBodyTools);
 
 		JPanel tabBodyShoppingList = new JPanel();
 		TAB_BODY.add(tabBodyShoppingList, "tabBodyShoppingList");
+		
+		scrollPane_6 = new JScrollPane();
+		shopList = new JTextArea("Please put your shopping List here!");
+		
+		scrollPane_6.setViewportView(shopList);
+		
+		JButton exportBtn = new JButton("Export to File!");
+		exportBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ShoppingList.exportToFile(shopList.getText());
+				shopListConfirm.setText("shoppinglist.txt has been successfully created in local directory.");
+			}
+		});
+		
+		shopListConfirm = new JTextArea();
+		
 		GroupLayout gl_tabBodyShoppingList = new GroupLayout(tabBodyShoppingList);
 		gl_tabBodyShoppingList.setHorizontalGroup(
 			gl_tabBodyShoppingList.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 1004, Short.MAX_VALUE)
+				.addGroup(gl_tabBodyShoppingList.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_tabBodyShoppingList.createParallelGroup(Alignment.TRAILING, false)
+						.addGroup(gl_tabBodyShoppingList.createSequentialGroup()
+							.addComponent(shopListConfirm, GroupLayout.PREFERRED_SIZE, 738, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(exportBtn, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE))
+						.addComponent(scrollPane_6, GroupLayout.PREFERRED_SIZE, 980, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(14, Short.MAX_VALUE))
 		);
 		gl_tabBodyShoppingList.setVerticalGroup(
 			gl_tabBodyShoppingList.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 596, Short.MAX_VALUE)
+				.addGroup(gl_tabBodyShoppingList.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(scrollPane_6, GroupLayout.PREFERRED_SIZE, 425, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(gl_tabBodyShoppingList.createParallelGroup(Alignment.LEADING)
+						.addComponent(exportBtn, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
+						.addComponent(shopListConfirm, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(74, Short.MAX_VALUE))
 		);
 		tabBodyShoppingList.setLayout(gl_tabBodyShoppingList);
 
@@ -1225,7 +1306,7 @@ public class Main extends JFrame {
 		});
 		tabCalendar.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 
-		JButton tabTools = new JButton("Tools");
+		JButton tabTools = new JButton("Help");
 		tabTools.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout toTabBodyTools = (CardLayout)(TAB_BODY.getLayout());
@@ -1242,39 +1323,34 @@ public class Main extends JFrame {
 			}
 		});
 		tabShoppingList.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-
-		JButton button_4 = new JButton("New button");
 		GroupLayout gl_tabSelection = new GroupLayout(tabSelection);
 		gl_tabSelection.setHorizontalGroup(
-				gl_tabSelection.createParallelGroup(Alignment.LEADING)
+			gl_tabSelection.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_tabSelection.createSequentialGroup()
-						.addGap(24)
-						.addGroup(gl_tabSelection.createParallelGroup(Alignment.LEADING)
-								.addComponent(button_4, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
-								.addComponent(tabShoppingList, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
-								.addComponent(tabTools, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
-								.addComponent(tabRecipe, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
-								.addComponent(tabPantry, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
-								.addComponent(tabCalendar, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE))
-								.addContainerGap(27, Short.MAX_VALUE))
-				);
+					.addGap(24)
+					.addGroup(gl_tabSelection.createParallelGroup(Alignment.LEADING)
+						.addComponent(tabTools, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tabShoppingList, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tabRecipe, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tabPantry, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tabCalendar, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(27, Short.MAX_VALUE))
+		);
 		gl_tabSelection.setVerticalGroup(
-				gl_tabSelection.createParallelGroup(Alignment.LEADING)
+			gl_tabSelection.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_tabSelection.createSequentialGroup()
-						.addGap(61)
-						.addComponent(tabPantry, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-						.addGap(40)
-						.addComponent(tabRecipe, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-						.addGap(40)
-						.addComponent(tabCalendar, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-						.addGap(40)
-						.addComponent(tabTools, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-						.addGap(40)
-						.addComponent(tabShoppingList, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-						.addGap(40)
-						.addComponent(button_4, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(79, Short.MAX_VALUE))
-				);
+					.addGap(61)
+					.addComponent(tabPantry, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+					.addGap(40)
+					.addComponent(tabRecipe, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+					.addGap(40)
+					.addComponent(tabCalendar, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+					.addGap(40)
+					.addComponent(tabShoppingList, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+					.addGap(46)
+					.addComponent(tabTools, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(146, Short.MAX_VALUE))
+		);
 		tabSelection.setLayout(gl_tabSelection);
 		mainMenu.setLayout(gl_mainMenu);
 	}
