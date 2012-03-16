@@ -81,7 +81,6 @@ public class RecipeToIngredientsDb extends Database{
 
 
 
-
 	}
 
 
