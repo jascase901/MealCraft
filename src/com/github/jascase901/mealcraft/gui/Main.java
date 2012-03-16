@@ -260,7 +260,7 @@ public class Main extends JFrame {
 				try {
 					ProfileDb myProfileDb = new ProfileDb();
 					myProfileDb.addProfile(myProfile);
-					System.out.println(myProfileDb.getName(myProfile.getName()));
+					//System.out.println(myProfileDb.getName(myProfile.getName()));
 
 				}
 				catch(Exception ex){
@@ -272,11 +272,11 @@ public class Main extends JFrame {
 				try{
 					ProfileDb myProfileDb = new ProfileDb();
 					profiles = myProfileDb.toStringArray();
-					System.out.println("YAY");
+					//System.out.println("YAY");
 				}
 				catch(Exception a){
 					a.printStackTrace();
-					System.out.println("GAH");
+					//System.out.println("GAH");
 
 				}
 
@@ -341,7 +341,7 @@ public class Main extends JFrame {
 				CardLayout c5 = (CardLayout)(card.getLayout());
 				c5.show(card, "mainMenu");
 
-				System.out.println(currentProfile);
+				//System.out.println(currentProfile);
 				lblNewLabel.setText(currentProfile);
 				lblNewLabel.repaint();
 			}
@@ -735,7 +735,7 @@ public class Main extends JFrame {
 				removeRcp.setEnabled(false);
 				if (listORecipe.getSelectedValue()==null){
 					redoRecipeIngrTable();
-					System.out.println("worked");
+					//System.out.println("worked");
 				}
 			}
 		});
@@ -1252,7 +1252,7 @@ public class Main extends JFrame {
 
 		lblProfile = new JLabel("Profile:");
 		lblProfile.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		System.out.println(currentProfile);
+		//System.out.println(currentProfile);
 		//I added This
 		//here
 		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
@@ -1359,11 +1359,11 @@ public class Main extends JFrame {
 		try{
 			ProfileDb myProfileDb = new ProfileDb();
 			profiles = myProfileDb.toStringArray();
-			System.out.println("YAY");
+			//System.out.println("YAY");
 		}
 		catch(Exception a){
 			a.printStackTrace();
-			System.out.println("GAH");
+			//System.out.println("GAH");
 
 		}
 		//WE ADDDED THIS
@@ -1433,7 +1433,7 @@ public class Main extends JFrame {
 					toRecipeView.show(recipeSwitch, "recipeView");
 
 					redoRecipeIngrTable((String)listORecipe.getSelectedValue());
-					System.out.println(listORecipe.getSelectedValue());
+					//System.out.println(listORecipe.getSelectedValue());
 					currRcpName = (String) listORecipe.getSelectedValue();
 					lblNewLabel_6.setText(currRcpName);
 					

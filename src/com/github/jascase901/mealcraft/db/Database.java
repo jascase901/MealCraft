@@ -14,7 +14,7 @@ public abstract class Database{
 	}
 	public void removeKey(String cat, String dbname, String rm_condition) throws Exception{
 		String sql = "Delete FROM "+ dbname+" WHERE "+cat+" = '"+rm_condition+"';";
-		System.out.println(sql);
+		//System.out.println(sql);
 		//String sql ="Delete FROM pantry WHERE name IS NULL;";
 		stat.executeUpdate(sql);
 
@@ -24,7 +24,6 @@ public abstract class Database{
 			conn.close();
 		stat.close();
 	}
-		else
-			System.out.print("DATABASE ALREADY CLOSED");
+		
 	}
 }
