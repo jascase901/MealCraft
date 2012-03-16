@@ -4,6 +4,7 @@ import com.github.jascase901.mealcraft.db.ProfileDb;
 import com.github.jascase901.mealcraft.db.RecipeBookDb;
 import com.github.jascase901.mealcraft.db.RecipeToIngredientsDb;
 import com.github.jascase901.mealcraft.system.Ingredient;
+import com.github.jascase901.mealcraft.system.Quantity;
 import com.github.jascase901.mealcraft.system.Recipe;
 import com.github.jascase901.mealcraft.usr.Profile;
 
@@ -46,6 +47,7 @@ import javax.swing.JList;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 public class Main extends JFrame {
 
@@ -63,7 +65,7 @@ public class Main extends JFrame {
 	private JDatePicker panel_1 = new JDatePicker();
 	private JScrollPane scrollPane = new JScrollPane();
 	private String[] profiles = {};
-	private String[] units = {"lbs","liters"};
+	private String[] units = {"lbs","liters","grams","pieces","oz","tons"};
 	private JComboBox comboBox = new JComboBox();
 	private JButton nextButton2 = new JButton("GO !!");
 	private JTextField txtEgBacon;
@@ -87,13 +89,25 @@ public class Main extends JFrame {
 	private JPanel recipeSwitch;
 	private JPanel recipeView;
 	private JButton removeRcp;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField col_ingr_input;
+	private JTextField col_quan_input;
+	private JTextField col_calo_input;
 	private JTextField newRcpName;
 	private JButton makeRcp;
 	private JLabel lblNewLabel_6;
+	private String currRcpName = "";
+	private ArrayList<String> col_ingr;
+	private ArrayList<String> col_quan;
+	private ArrayList<String> col_unit;
+	private ArrayList<String> col_calo;
+	private JTable aRecipeIngr;
+	private JScrollPane scrollPane_4;
+	private JComboBox comboBox_2;
+	private JButton addToCol;
+	private JButton pantryAddBtn;
+	private JScrollPane scrollPane_5;
+	private JTextArea instruction_input;
+	private JButton btnNewButton_3;
 
 	/**
 	 * Launch the application.
@@ -430,38 +444,7 @@ public class Main extends JFrame {
 		JPanel tabBodyPantry = new JPanel();
 		TAB_BODY.add(tabBodyPantry, "tabBodyPantry");
 		redoPTable();
-		/*	
-		public void redoPTable(){
-			pantryTable = new JTable(50, 4);
-			pantryTable.setEnabled(false);
-			// I AM ADDING THIS
-			try { 
-				IngredientDb myIngredientDb= new IngredientDb();
-				int count  = myIngredientDb.count();
 
-
-				String[] names=myIngredientDb.namesArray();
-				String[] amounts= myIngredientDb.amountsArray();
-				String[] calories=myIngredientDb.caloriesArray();
-				String[] units=myIngredientDb.unitsArray();
-				String[] prices=myIngredientDb.pricesArray();
-				for(int i=0;i<count;i++){
-					pantryTable.setValueAt(names[i], i,0);
-
-					pantryTable.setValueAt(amounts[i]+" "+units[i],i,1);
-
-					pantryTable.setValueAt(calories[i],i,2);
-
-					pantryTable.setValueAt("$ "+prices[i], i, 3);
-				}	
-				myIngredientDb.close();
-			}
-			catch(Exception ect){
-
-			}
-			scrollPane.setViewportView(pantryTable);
-		}
-		 */
 		JLabel lblNewLabel_1 = new JLabel("Ingredients\r\n");
 		lblNewLabel_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 
@@ -515,6 +498,36 @@ public class Main extends JFrame {
 				);
 
 		txtEgBacon = new JTextField();
+		Document textFieldDocB = txtEgBacon.getDocument();
+		textFieldDocB.addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updated(e);
+			}
+			public void insertUpdate(DocumentEvent e) {
+				updated(e);
+			}
+			public void removeUpdate(DocumentEvent e) {
+				updated(e);
+			}
+			private void updated(DocumentEvent e) {
+				boolean enable = e.getDocument().getLength() > 0;
+				try{
+					if(txtEgBacon.getText().charAt(0) != ' '){
+						try{
+							pantryAddBtn.setEnabled(enable);
+						}catch(Exception ex){}
+					}
+				}catch(Exception ext){}
+				
+				try{
+					if(txtEgBacon.getText().charAt(0) == ' '){
+						try{
+							pantryAddBtn.setEnabled(false);
+						}catch(Exception ex){}
+					}
+				}catch(Exception ext){}
+			}
+		});
 		txtEgBacon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -528,7 +541,8 @@ public class Main extends JFrame {
 		txtEgBacon.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
 		txtEgBacon.setColumns(10);
 
-		JButton pantryAddBtn = new JButton("Add");
+		pantryAddBtn = new JButton("Add");
+		pantryAddBtn.setEnabled(false);
 		pantryAddBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -690,7 +704,6 @@ public class Main extends JFrame {
 					recipe_relation.removeKey("recipe_id", "recipe_to_ingredients", ""+recipebook.getId((String)listORecipe.getSelectedValue()));
 					recipebook.removeKey("name", "recipebook", (String)listORecipe.getSelectedValue());
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				redoRList();
@@ -784,41 +797,146 @@ public class Main extends JFrame {
 		JLabel lblNewLabel_2 = new JLabel("Recipe Name:");
 		lblNewLabel_2.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
 		
-		JLabel lblNewLabel_3 = new JLabel("Ingredients:");
+		JLabel lblNewLabel_3 = new JLabel("Ingredients: Name, quantity, price");
 		lblNewLabel_3.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
 		
-		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4 = new JScrollPane();
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		col_ingr_input = new JTextField();
+		col_ingr_input.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		Document textFieldDocCol = col_ingr_input.getDocument();
+		textFieldDocCol.addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updated(e);
+			}
+			public void insertUpdate(DocumentEvent e) {
+				updated(e);
+			}
+			public void removeUpdate(DocumentEvent e) {
+				updated(e);
+			}
+			private void updated(DocumentEvent e) {
+				boolean enable = e.getDocument().getLength() > 0;
+				addToCol.setEnabled(enable);
+			}
+		});
 		
-		JComboBox comboBox_2 = new JComboBox();
+		col_quan_input = new JTextField();
+		col_quan_input.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
+		comboBox_2 = new JComboBox(units);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
+		col_calo_input = new JTextField();
+		col_calo_input.setColumns(10);
 		
-		JButton btnNewButton_2 = new JButton("New button");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		addToCol = new JButton("Add");
+		addToCol.setEnabled(false);
+		addToCol.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				col_ingr.add(col_ingr_input.getText());
+				col_quan.add(col_quan_input.getText());
+				col_unit.add((String) comboBox_2.getSelectedItem());
+				col_calo.add(col_calo_input.getText());
+				
+				redoAddRecipeIngrTable((String)listORecipe.getSelectedValue());
 			
 			}
 		});
 		
-		JButton btnNewButton_3 = new JButton("New button");
+		btnNewButton_3 = new JButton("DONE");
+		btnNewButton_3.setEnabled(false);
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			
+				
+				
+				try {
+					IngredientDb ingr = new IngredientDb();
+					RecipeToIngredientsDb rti = new RecipeToIngredientsDb();
+					RecipeBookDb rb = new RecipeBookDb();
+					rb.removeKey("name", "recipebook", newRecipe);
+					Recipe recipe = new Recipe(newRecipe, instruction_input.getText(), "");
+					rb.addRecipe(recipe);
+		
+					
+			
+				int i = 0;
+				for (String each: col_ingr){
+					if (each!=null){
+					Ingredient ingredient = new Ingredient(each, Double.parseDouble(col_calo.get(i)));
+					ingr.addIngredient(ingredient, new Quantity(0, "lbs"));
+					rti.addRelation(newRecipe, each, Double.parseDouble(col_quan.get(i)), ""+col_unit.get(i));
+					}
+					i++;
+				}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				redoPTable();
+				pantryTable.revalidate();
+				pantryTable.repaint();
+				scrollPane.setViewportView(pantryTable);
+				scrollPane.revalidate();
+				scrollPane.repaint();
+				
+				CardLayout toRecipeview = (CardLayout)(recipeSwitch.getLayout());
+				toRecipeview.show(recipeSwitch, "recipeView");
+				
+				instruction_input.setText("Input steps to make this Recipe Here!");
+				redoAddRecipeIngrTable();
+				
+			}
+		});
 		
 		JLabel lblNewLabel_4 = new JLabel("Instructions:");
 		lblNewLabel_4.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
 		
-		JScrollPane scrollPane_5 = new JScrollPane();
+		scrollPane_5 = new JScrollPane();
+		instruction_input = new JTextArea("Please input the steps for this recipe here");
+		
+		Document textFieldDocII = instruction_input.getDocument();
+		textFieldDocII.addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updated(e);
+			}
+			public void insertUpdate(DocumentEvent e) {
+				updated(e);
+			}
+			public void removeUpdate(DocumentEvent e) {
+				updated(e);
+			}
+			private void updated(DocumentEvent e) {
+				boolean enable = e.getDocument().getLength() > 0;
+				btnNewButton_3.setEnabled(enable);
+			}
+		});
+		
+		
+		
+		scrollPane_5.setViewportView(instruction_input);
 		
 		lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+		
+		JButton btnNewButton_2 = new JButton("resetList");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				col_ingr = new ArrayList<String>();
+				col_quan = new ArrayList<String>();
+				col_unit = new ArrayList<String>();
+				col_calo = new ArrayList<String>();
+				
+				redoAddRecipeIngrTable();
+				
+				
+			}
+		});
 		GroupLayout gl_recipeEdit = new GroupLayout(recipeEdit);
 		gl_recipeEdit.setHorizontalGroup(
 			gl_recipeEdit.createParallelGroup(Alignment.LEADING)
@@ -835,32 +953,31 @@ public class Main extends JFrame {
 							.addGroup(gl_recipeEdit.createSequentialGroup()
 								.addGroup(gl_recipeEdit.createParallelGroup(Alignment.TRAILING)
 									.addGroup(gl_recipeEdit.createSequentialGroup()
-										.addGroup(gl_recipeEdit.createParallelGroup(Alignment.TRAILING)
-											.addComponent(lblNewLabel_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-											.addGroup(Alignment.LEADING, gl_recipeEdit.createSequentialGroup()
+										.addGroup(gl_recipeEdit.createParallelGroup(Alignment.LEADING)
+											.addComponent(lblNewLabel_3, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+											.addGroup(gl_recipeEdit.createSequentialGroup()
 												.addComponent(lblNewLabel_2)
 												.addPreferredGap(ComponentPlacement.UNRELATED)
 												.addComponent(lblNewLabel_6, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)))
 										.addGap(377))
 									.addGroup(gl_recipeEdit.createSequentialGroup()
 										.addGroup(gl_recipeEdit.createParallelGroup(Alignment.TRAILING)
-											.addComponent(btnNewButton_2)
-											.addGroup(gl_recipeEdit.createSequentialGroup()
-												.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
-												.addGap(10)
-												.addComponent(comboBox_2, 0, 106, Short.MAX_VALUE)
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
-												.addGap(10)
-												.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)))
-										.addGap(17))
-									.addGroup(gl_recipeEdit.createSequentialGroup()
-										.addGroup(gl_recipeEdit.createParallelGroup(Alignment.TRAILING)
 											.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 											.addComponent(scrollPane_4, GroupLayout.PREFERRED_SIZE, 663, GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(ComponentPlacement.RELATED)))
+										.addPreferredGap(ComponentPlacement.RELATED))
+									.addGroup(gl_recipeEdit.createSequentialGroup()
+										.addComponent(col_ingr_input, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(col_quan_input, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+										.addGap(10)
+										.addComponent(comboBox_2, 0, 106, Short.MAX_VALUE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(col_calo_input, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+										.addGap(18)
+										.addGroup(gl_recipeEdit.createParallelGroup(Alignment.LEADING)
+											.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
+											.addComponent(addToCol, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE))
+										.addGap(5)))
 								.addGap(80)))))
 		);
 		gl_recipeEdit.setVerticalGroup(
@@ -876,18 +993,18 @@ public class Main extends JFrame {
 					.addComponent(scrollPane_4, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_recipeEdit.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(col_ingr_input, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(col_calo_input, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(col_quan_input, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(addToCol))
 					.addGroup(gl_recipeEdit.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_recipeEdit.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnNewButton_2))
-						.addGroup(gl_recipeEdit.createSequentialGroup()
 							.addGap(30)
-							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_recipeEdit.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(scrollPane_5, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
 					.addGap(7)
@@ -940,10 +1057,13 @@ public class Main extends JFrame {
 					recipeBook.close();
 					redoRList();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
+				col_ingr = new ArrayList<String>();
+				col_quan = new ArrayList<String>();
+				col_unit = new ArrayList<String>();
+				col_calo = new ArrayList<String>();
 				
 				newRcpName.setText(null);
 			}
@@ -1027,23 +1147,15 @@ public class Main extends JFrame {
 
 		JPanel tabBodyShoppingList = new JPanel();
 		TAB_BODY.add(tabBodyShoppingList, "tabBodyShoppingList");
-
-		JLabel lblShoppingList = new JLabel("shopping list");
 		GroupLayout gl_tabBodyShoppingList = new GroupLayout(tabBodyShoppingList);
 		gl_tabBodyShoppingList.setHorizontalGroup(
-				gl_tabBodyShoppingList.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_tabBodyShoppingList.createSequentialGroup()
-						.addGap(29)
-						.addComponent(lblShoppingList)
-						.addContainerGap(916, Short.MAX_VALUE))
-				);
+			gl_tabBodyShoppingList.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 1004, Short.MAX_VALUE)
+		);
 		gl_tabBodyShoppingList.setVerticalGroup(
-				gl_tabBodyShoppingList.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_tabBodyShoppingList.createSequentialGroup()
-						.addGap(27)
-						.addComponent(lblShoppingList)
-						.addContainerGap(555, Short.MAX_VALUE))
-				);
+			gl_tabBodyShoppingList.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 596, Short.MAX_VALUE)
+		);
 		tabBodyShoppingList.setLayout(gl_tabBodyShoppingList);
 
 		JButton logout = new JButton("Log out/Switch");
@@ -1246,6 +1358,8 @@ public class Main extends JFrame {
 
 					redoRecipeIngrTable((String)listORecipe.getSelectedValue());
 					System.out.println(listORecipe.getSelectedValue());
+					currRcpName = (String) listORecipe.getSelectedValue();
+					lblNewLabel_6.setText(currRcpName);
 					
 					Thread.currentThread();
 					try {
@@ -1288,6 +1402,7 @@ public class Main extends JFrame {
 					RecipeBookDb recipebookDb = new RecipeBookDb();
 					recipeIngr.setValueAt(each, i,0);
 					recipeIngr.setValueAt(recipe_relation.getQuantity(recipeSelected, each)+" "+recipe_relation.getUnits(recipeSelected, each), i, 1);
+					//recipeIngr.setValueAt(ingr.getCalories(recipeSelected),i,2);
 					recipeIngr.setValueAt("$"+ingr.getPrice(each), i, 2);
 					recipeIngr.setShowGrid(false);
 
@@ -1346,6 +1461,61 @@ public class Main extends JFrame {
 
 		scrollPane_3.setViewportView(recipeInstructions);
 		scrollPane_2.setViewportView(recipeIngr);
+	}
+	
+	public void redoAddRecipeIngrTable(String recipeSelected){
+		aRecipeIngr = new JTable(50,3);
+		aRecipeIngr.setEnabled(false);
+		aRecipeIngr.setShowGrid(false);
+
+
+		try{
+			
+			int i =0;
+			for(String aIngr: col_ingr){
+				
+					aRecipeIngr.setValueAt(aIngr, i,0);
+					aRecipeIngr.setValueAt(col_quan.get(i) + " " + col_unit.get(i) ,i, 1);
+					aRecipeIngr.setValueAt("$ " + col_calo.get(i) , i, 2);
+					aRecipeIngr.setShowGrid(false);
+
+					i++;
+
+			}
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		scrollPane_4.setViewportView(aRecipeIngr);
+	}
+	public void redoAddRecipeIngrTable(){
+		aRecipeIngr = new JTable(50,3);
+		aRecipeIngr.setEnabled(false);
+		aRecipeIngr.setShowGrid(false);
+
+
+		try{
+			
+			int i =0;
+			for(String aIngr: col_ingr){
+				
+				aRecipeIngr.setValueAt("", 0,0);
+				aRecipeIngr.setValueAt("", 0, 1);
+				aRecipeIngr.setValueAt("", 0, 2);
+					aRecipeIngr.setShowGrid(false);
+
+					i++;
+
+			}
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		scrollPane_4.setViewportView(aRecipeIngr);
 	}
 }
 

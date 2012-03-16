@@ -3,7 +3,7 @@ package com.github.jascase901.mealcraft.system;
 //import sql stuff
 public class Ingredient {
 	String name;
-	int calories;
+	int calories=0;
 
 	double price;
 	/**
